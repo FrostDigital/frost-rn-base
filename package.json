@@ -10,8 +10,12 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-navigation/native": "^5.9.3",
     "react": "17.0.1",
-    "react-native": "0.64.0"
+    "react-native": "0.64.0",
+    "react-native-code-push": "^7.0.0",
+    "react-native-reanimated": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

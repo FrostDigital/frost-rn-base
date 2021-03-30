@@ -25,6 +25,7 @@ components/DatePicker/      # keep component in their own
                             # folder which holds component,
                             # styles, stories and possibly more files
 screens/                    # app screens/views
+models/                     # models, such as API models or other, should mostly be interfaces
 config/                     # config files
 ci/                         # pipeline yaml files
 assets/                     # static assets such as images
