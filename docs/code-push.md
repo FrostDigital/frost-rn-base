@@ -28,6 +28,10 @@ appcenter codepush deployment list --app frost-appcenter/ellevio-android -k
 
 ![CodePush deployment keys](images/codepush-keys.png)
 
+Add those keys to `/config/config.ts` in `codePush` for each app env.
+
+> Note: Don't be fooled by CodePush naming conventions of **staging** and **production** keys for their default deployments. They still point to the same app, it is just a way of being able to preview and roll out code push changes first to staging and then production, but still targeting the same i.e. prod app.
+
 ### 3. Publish an OTA update
 
 > 💥 Publishing OTA updates can (sometimes) be a challange to manage where the publish package native dependencies needs to match the binary version. Make sure you know what you are doing before publishing anything to production 💥
@@ -35,3 +39,12 @@ appcenter codepush deployment list --app frost-appcenter/ellevio-android -k
 ```
 appcenter codepush release-react -a frost-appcenter/Origo-iOS-Test -d Production --target-binary-version "1.0.0"
 ```
+
+## Strategy for publishing
+
+Being able to publish OTA updates is powerful but can also go completely wrong if doing it wrong since the published update need to match the binary app version.
+
+These are the best practises we came up with, but should be decided per-project.
+
+- Embrace semver versioning where **minor** version decides if binary version is compatible with CodePush update. For example (binary) app version `1.2.0` and `1.2.1` should both be compatible if publishing an CodePush update targeted to `1.2.x`.
+- Create a git branch for each binary version release named `release/1.2.x` and track any codepush updates in that branch.

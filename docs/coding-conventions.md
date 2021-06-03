@@ -1,6 +1,6 @@
 # Coding conventions and structure
 
-TL;DR: Just use prettier for auto formatting (yes, we use double quotes).
+TL;DR: Enable prettier auto formatting in VSCode and you are good to go.
 
 ## Auto formatting
 
