@@ -8,7 +8,7 @@ import {ConfigType} from "./config-types";
  */
 export const appEnvs = ["test", "prod"];
 
-enum AppEnvs {
+export enum AppEnvs {
   "test" = "test",
   "prod" = "prod",
 }
