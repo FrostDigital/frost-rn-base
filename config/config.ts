@@ -1,32 +1,21 @@
-import mergeDeep from "merge-deep";
-import {ConfigType} from "./config-types";
+import {env} from "../env.json";
 
-/*
- * Add additional app environments here, such as `staging`.
- * While doing that also make sure to add an object with that
- * name in `configByEnv` below 👇
- */
-export const appEnvs = ["test", "prod"];
+export type Envs = "test" | "prod";
 
-export enum AppEnvs {
-  "test" = "test",
-  "prod" = "prod",
-}
+const configByEnv = {
+  // Config applied to all envs
+  global: {
+    codePush: {
+      // Set to true if app will use CodePush
+      enabled: false,
+    },
 
-export const configByEnv = {
-  // Shared config for all environments
-  // Will be overridden if same key exists within env specific config
-  hello: "world",
-
-  codePush: {
-    enabled: false,
-  },
-
-  devSettings: {
-    // Optionally protect dev settings behind a pin code
-    // will be default be disabled in __DEV__ mode
-    pin: "",
-    showLog: true,
+    devSettings: {
+      // Optionally protect dev settings behind a pin code
+      // will be default be disabled in __DEV__ mode
+      pin: "",
+      showLog: true,
+    },
   },
 
   // Config only applied if test environment is active
@@ -38,7 +27,7 @@ export const configByEnv = {
       deploymentKeyStagingChannelAndroid: "REPLACE_ME",
     },
     api: {
-      apiRoot: "https://api.replace.me",
+      apiRoot: "https://api-test.replace.me",
     },
   },
 
@@ -56,17 +45,7 @@ export const configByEnv = {
   },
 };
 
-let cachedConfig: ConfigType;
-
-export function getConfig() {
-  if (!cachedConfig) {
-    cachedConfig = mergeConfig(configByEnv);
-
-    // TODO: Find a way of iterating AppEnv type (enum in future?) so there is no need to add envs here
-    let configWoEnvSpecifics = {...configByEnv};
-
-    cachedConfig = mergeDeep(configWoEnvSpecifics, configByEnv.test, configByEnv.prod);
-  }
-
-  return cachedConfig;
+export function config(selectedEnv?: Envs) {
+  const envConfig = selectedEnv ? configByEnv[selectedEnv] : configByEnv[env as Envs];
+  return {...configByEnv.global, ...envConfig};
 }
