@@ -1,16 +1,18 @@
-import {action, observable} from "mobx";
 import AsyncStorage from "@react-native-community/async-storage";
+import {action, observable} from "mobx";
 import {FeatureFlag} from "../models/FeatureFlag";
+import BaseStore from "./BaseStore";
 
 const FEATURE_FLAGS_STORAGE_KEY = "FEATURE_FLAGS";
 
 /**
  * State store that holds and toggles feature flags.
  */
-class FeatureFlagStore {
+class FeatureFlagStore extends BaseStore {
   @observable
   private featureFlags = new Map<string, FeatureFlag>();
 
+  async onBeforeStart() {}
   /**
    * Sync persisted feature flags with in-memory store.
    * Should be invoked when app is launched.
