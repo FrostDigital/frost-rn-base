@@ -1,6 +1,6 @@
 # Frost React Native Base
 
-Frost React Native Base is a base project containing opnionated best practises related to building React Native apps.
+Frost React Native Base is a base project containing opinionated best practices related to building React Native apps.
 
 This project is meant to be copy-pasted and reworked to whatever app you are building.
 

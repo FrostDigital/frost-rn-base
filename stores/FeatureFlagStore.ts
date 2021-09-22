@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {action, observable} from "mobx";
 import {FeatureFlag} from "../models/FeatureFlag";
 import BaseStore from "./BaseStore";

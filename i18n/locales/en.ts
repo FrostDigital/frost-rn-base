@@ -1,7 +1,7 @@
 const en = {
   signIn: {
     signIn: "Sign in",
-    forgotPassword: "Glömt lösenordet?",
+    forgotPassword: "Forgot password?",
   },
 };
 
