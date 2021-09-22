@@ -19,7 +19,7 @@ class AuthStore extends BaseStore {
   }
 
   @action
-  async onBeforeLogout() {
+  async onLogout() {
     this.accessToken = undefined;
     this.refreshToken = undefined;
     await AsyncStorage.multiRemove([ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY]);

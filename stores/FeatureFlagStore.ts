@@ -12,13 +12,7 @@ class FeatureFlagStore extends BaseStore {
   @observable
   private featureFlags = new Map<string, FeatureFlag>();
 
-  async onBeforeStart() {}
-  /**
-   * Sync persisted feature flags with in-memory store.
-   * Should be invoked when app is launched.
-   */
-  @action
-  async init() {
+  async onBeforeStart() {
     try {
       const featureFlagsStr = await AsyncStorage.getItem(FEATURE_FLAGS_STORAGE_KEY);
       const featureFlags: FeatureFlag[] = JSON.parse(featureFlagsStr || "[]");

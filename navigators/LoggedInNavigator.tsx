@@ -9,7 +9,7 @@ const AuthNavigator: React.FC = () => {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={() => <Text>Home</Text>} />
+      <Stack.Screen name="Home" component={() => <Text>Logged in</Text>} />
     </Stack.Navigator>
   );
 };

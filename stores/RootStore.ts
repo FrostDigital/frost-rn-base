@@ -6,16 +6,18 @@ import AuthStore from "./AuthStore";
 import BaseStore from "./BaseStore";
 import ConfigStore from "./ConfigStore";
 import FeatureFlagStore from "./FeatureFlagStore";
+import LogStore from "./LogStore";
 
 /**
  * "One store to rule them all"
  */
 export class RootStore {
-  stores: {[x: string]: BaseStore} = {
+  stores = {
     apiStore: new ApiStore(this),
     featureFlagStore: new FeatureFlagStore(this),
     authStore: new AuthStore(this),
     configStore: new ConfigStore(this),
+    logStore: new LogStore(this),
     // 👊 Add more stores here
   };
 
@@ -37,7 +39,6 @@ export class RootStore {
   @action
   async onBeforeStart() {
     for (const store of this.getSortedStores()) {
-      console.log(store);
       try {
         await store.onBeforeStart();
       } catch (err) {
@@ -45,8 +46,21 @@ export class RootStore {
       }
     }
     console.log("[RootStore]", "Finished onBeforeStart");
+    console.log("Configuration", this.stores.configStore);
 
     this.initialized = true;
+  }
+
+  @action
+  async onLogout() {
+    for (const store of this.getSortedStores()) {
+      try {
+        await store.onLogout();
+      } catch (err) {
+        console.log("Failed to invoke onLogout", store, err);
+      }
+    }
+    console.log("[RootStore]", "Finished onLogout");
   }
 
   async onAppActive() {
@@ -71,7 +85,7 @@ export class RootStore {
     console.log("[RootStore]", "Finished onAppBackground");
   }
 
-  private getSortedStores() {
+  private getSortedStores(): BaseStore[] {
     return Object.values(this.stores).sort((a, b) => a.priority - b.priority);
   }
 }

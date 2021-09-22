@@ -3,13 +3,11 @@ import React from "react";
 import {Text} from "react-native";
 
 const AuthNavigator: React.FC = () => {
-  // const isSignedIn = false;
-
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={() => <Text>Home</Text>} />
+      <Stack.Screen name="Home" component={() => <Text>Logged out</Text>} />
     </Stack.Navigator>
   );
 };

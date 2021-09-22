@@ -21,6 +21,7 @@ const configByEnv = {
   // Config only applied if test environment is active
   test: {
     codePush: {
+      env: "",
       deploymentKeyProdChannelIOS: "REPLACE_ME",
       deploymentKeyStagingChannelIOS: "REPLACE_ME",
       deploymentKeyProdChannelAndroid: "REPLACE_ME",
@@ -45,7 +46,20 @@ const configByEnv = {
   },
 };
 
-export function config(selectedEnv?: Envs) {
+let selectedEnv: Envs = env as Envs;
+
+/**
+ * Set selected env if to override default from `../env.json`.
+ *
+ * Is mainly used when env is changed in DevSettings by developers or super users.
+ *
+ * @param selectedEnvOverride
+ */
+export function setSelectedEnv(selectedEnvOverride: Envs) {
+  selectedEnv = selectedEnvOverride;
+}
+
+export function config(_selectedEnv?: Envs) {
   const envConfig = selectedEnv ? configByEnv[selectedEnv] : configByEnv[env as Envs];
   return {...configByEnv.global, ...envConfig};
 }

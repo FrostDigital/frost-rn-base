@@ -1,15 +1,16 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import React from "react";
 import {Text} from "react-native";
+import {useStore} from "../stores/RootStore";
 
 const AuthNavigator: React.FC = () => {
-  const isSignedIn = true;
+  const {authStore} = useStore();
 
   const Stack = createStackNavigator();
 
   return (
     <Stack.Navigator>
-      {isSignedIn ? (
+      {authStore.isLoggedIn ? (
         <>
           <Stack.Screen
             name="LoggedIn"

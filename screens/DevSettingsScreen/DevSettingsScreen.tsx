@@ -5,9 +5,9 @@ import {styles} from "./DevSettingsScreen.styles";
 import {config} from "../../config/config";
 
 const DevSettingsScreen: React.FC = () => {
-  const [selectedEnv, setSelectedEnv] = useState(appConfig().env);
-  const [selectedCodePushEnv, setSelectedCodePushEnv] = useState(appConfig().codePushEnv);
-  const [selectedOrg, setSelectedOrg] = useState(appConfig().organisation.orgId);
+  const [selectedEnv, setSelectedEnv] = useState(config());
+  const [selectedCodePushEnv, setSelectedCodePushEnv] = useState(config().codePush);
+  const [selectedOrg, setSelectedOrg] = useState(config().organisation.orgId);
   const [codePushMetadata, setCodePushMetadata] = useState(null);
 
   const envs = Object.keys(envConfig);
@@ -61,7 +61,7 @@ const DevSettingsScreen: React.FC = () => {
         })}
 
         <Text style={styles.infoText}>Active config:</Text>
-        <Text style={styles.configText}>{JSON.stringify(appConfig(), null, 2)}</Text>
+        <Text style={styles.configText}>{JSON.stringify(config(), null, 2)}</Text>
         <Text style={styles.infoText}>Codepush metadata:</Text>
         <Text style={styles.configText}>{codePushMetadata ? JSON.stringify(codePushMetadata, null, 2) : "n/a"}</Text>
       </ScrollView>
