@@ -1,17 +1,21 @@
-import {createStackNavigator} from "@react-navigation/stack";
+import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
 import React from "react";
-import {Text} from "react-native";
+import HomeScreen from "../screens/HomeScreen.tsx/HomeScreen";
 
-const AuthNavigator: React.FC = () => {
-  // const isSignedIn = false;
+type LoggedInParamList = {
+  Home: undefined;
+};
 
-  const Stack = createStackNavigator();
+export type LoggedInStackNavigationProp = StackNavigationProp<LoggedInParamList>;
+
+const LoggedInNavigator: React.FC = () => {
+  const Stack = createStackNavigator<LoggedInParamList>();
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={() => <Text>Logged in</Text>} />
+      <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator;
+export default LoggedInNavigator;

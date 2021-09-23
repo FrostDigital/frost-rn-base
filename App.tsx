@@ -1,5 +1,5 @@
 import {NavigationContainer} from "@react-navigation/native";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import AuthNavigator from "./navigators/AuthNavigator";
 import {useStore} from "./stores/RootStore";
 import StorybookUIRoot from "./.storybook/Storybook";
@@ -9,21 +9,22 @@ const ENABLE_STORYBOOK = false;
 
 const App = () => {
   const {rootStore} = useStore();
+  const [isInitialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    rootStore.onBeforeStart();
+    async function init() {
+      await rootStore.onBeforeStart();
+      setInitialized(true);
+    }
+
+    init();
   }, [rootStore]);
 
   if (__DEV__ && ENABLE_STORYBOOK) {
     return <StorybookUIRoot />;
   }
 
-  return (
-    <NavigationContainer>
-      <AuthNavigator />
-      {/* <Text>Hello world</Text> */}
-    </NavigationContainer>
-  );
+  return <NavigationContainer>{isInitialized && <AuthNavigator />}</NavigationContainer>;
 };
 
 export default App;

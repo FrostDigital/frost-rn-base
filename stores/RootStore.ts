@@ -1,4 +1,4 @@
-import {action, observable} from "mobx";
+import {action, makeObservable, observable} from "mobx";
 import React from "react";
 import {AppState} from "react-native";
 import ApiStore from "./ApiStore";
@@ -34,6 +34,17 @@ export class RootStore {
         this.onAppBackground();
       }
     });
+
+    this.makeObservable();
+  }
+
+  /**
+   * Iterates thru all stores and makes them observable
+   * https://mobx.js.org/observable-state.html#makeobservable
+   */
+  private makeObservable() {
+    makeObservable(this);
+    this.getSortedStores().map(s => makeObservable(s));
   }
 
   @action
@@ -52,7 +63,7 @@ export class RootStore {
   }
 
   @action
-  async onLogout() {
+  private async onLogout() {
     for (const store of this.getSortedStores()) {
       try {
         await store.onLogout();
@@ -63,7 +74,7 @@ export class RootStore {
     console.log("[RootStore]", "Finished onLogout");
   }
 
-  async onAppActive() {
+  private async onAppActive() {
     for (const store of this.getSortedStores()) {
       try {
         await store.onAppActive();
@@ -74,7 +85,7 @@ export class RootStore {
     console.log("[RootStore]", "Finished onAppActive");
   }
 
-  async onAppBackground() {
+  private async onAppBackground() {
     for (const store of this.getSortedStores()) {
       try {
         await store.onAppBackground();
@@ -83,6 +94,10 @@ export class RootStore {
       }
     }
     console.log("[RootStore]", "Finished onAppBackground");
+  }
+
+  async logout() {
+    return this.onLogout();
   }
 
   private getSortedStores(): BaseStore[] {

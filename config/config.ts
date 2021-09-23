@@ -1,6 +1,7 @@
 import {env} from "../env.json";
 
-export type Envs = "test" | "prod";
+export const envs = ["test", "prod"] as const;
+export type ConfigEnv = typeof envs[number];
 
 const configByEnv = {
   // Config applied to all envs
@@ -46,7 +47,7 @@ const configByEnv = {
   },
 };
 
-let selectedEnv: Envs = env as Envs;
+export let selectedEnv: ConfigEnv = env as ConfigEnv;
 
 /**
  * Set selected env if to override default from `../env.json`.
@@ -55,11 +56,11 @@ let selectedEnv: Envs = env as Envs;
  *
  * @param selectedEnvOverride
  */
-export function setSelectedEnv(selectedEnvOverride: Envs) {
+export function setSelectedEnv(selectedEnvOverride: ConfigEnv) {
   selectedEnv = selectedEnvOverride;
 }
 
-export function config(_selectedEnv?: Envs) {
-  const envConfig = selectedEnv ? configByEnv[selectedEnv] : configByEnv[env as Envs];
+export function config(_selectedEnv?: ConfigEnv) {
+  const envConfig = selectedEnv ? configByEnv[selectedEnv] : configByEnv[env as ConfigEnv];
   return {...configByEnv.global, ...envConfig};
 }

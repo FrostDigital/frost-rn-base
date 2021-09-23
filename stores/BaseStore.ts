@@ -18,13 +18,8 @@ abstract class BaseStore {
   async onBeforeStart() {}
 
   /**
-   * Invoked when user is about to logout
-   */
-  // async onBeforeLogout() {}
-
-  /**
    * Invoked when user logs out.
-   * Good place to clean state that is not relevant when user logged out.
+   * A place to clean state that is not relevant when user logged out.
    */
   async onLogout() {}
 

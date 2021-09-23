@@ -1,6 +1,7 @@
+import {t} from "i18n-js";
 import React from "react";
 import {Pressable, PressableProps, StyleProp, Text, ViewStyle} from "react-native";
-import appButtonStyles from "./AppButton.styles";
+import styles from "./AppButton.styles";
 
 interface Props extends PressableProps {
   title: string;
@@ -9,8 +10,8 @@ interface Props extends PressableProps {
 
 const AppButton: React.FC<Props> = ({title, style, ...rest}) => {
   return (
-    <Pressable {...rest} style={[appButtonStyles.container, style]}>
-      <Text style={appButtonStyles.text}>{title}</Text>
+    <Pressable {...rest} style={[styles.container, style]}>
+      <Text style={styles.text}>{t(title) || title}</Text>
     </Pressable>
   );
 };

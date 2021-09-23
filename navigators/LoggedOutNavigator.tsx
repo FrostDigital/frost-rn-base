@@ -1,15 +1,25 @@
-import {createStackNavigator} from "@react-navigation/stack";
+import {createStackNavigator, StackNavigationProp} from "@react-navigation/stack";
 import React from "react";
-import {Text} from "react-native";
+import LoginScreen from "../screens/LoginScreen/LoginScreen";
+import WelcomeScreen from "../screens/WelcomeScreen/WelcomeScreen";
 
-const AuthNavigator: React.FC = () => {
-  const Stack = createStackNavigator();
+type LoggedOutParamList = {
+  Welcome: undefined;
+  Login: undefined;
+  SignUp: undefined;
+};
+
+export type LoggedOutStackNavigationProp = StackNavigationProp<LoggedOutParamList>;
+
+const LoggedOutNavigator: React.FC = () => {
+  const Stack = createStackNavigator<LoggedOutParamList>();
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={() => <Text>Logged out</Text>} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown: false}} />
+      <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator;
+export default LoggedOutNavigator;

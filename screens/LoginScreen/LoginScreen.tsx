@@ -1,72 +1,17 @@
-import React, {useEffect, useState} from "react";
-import {Pressable, SafeAreaView, ScrollView, Text, View} from "react-native";
-
+import {t} from "i18n-js";
+import React from "react";
+import {SafeAreaView, Text} from "react-native";
+import AppButton from "../../components/AppButton/AppButton";
+import {useStore} from "../../stores/RootStore";
 import {styles} from "./LoginScreen.styles";
 
 const LoginScreen: React.FC = () => {
-  const [selectedEnv, setSelectedEnv] = useState(appConfig().env);
-  const [selectedCodePushEnv, setSelectedCodePushEnv] = useState(appConfig().codePushEnv);
-  const [selectedOrg, setSelectedOrg] = useState(appConfig().organisation.orgId);
-  const [codePushMetadata, setCodePushMetadata] = useState(null);
-
-  const envs = Object.keys(envConfig);
-  const codePushEnvs: CodePushDeployEnv[] = ["production", "staging"];
-
-  useEffect(() => {
-    codePush.getUpdateMetadata().then(setCodePushMetadata);
-  }, []);
-
-  function handleSelectEnv(env: string) {
-    setSelectedEnv(env);
-  }
-
-  async function handleApply() {
-    await setConfigOverride({
-      orgId: selectedOrg,
-      env: selectedEnv,
-      codePushEnv: selectedCodePushEnv,
-    });
-    RNRestart.Restart();
-  }
-
-  function handleSelectCodePushEnv(env: CodePushDeployEnv) {
-    setSelectedCodePushEnv(env);
-  }
+  const {authStore} = useStore();
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
-        <Text style={styles.infoText}>Select environment:</Text>
-        {envs.map(env => {
-          const selected = selectedEnv === env;
-          return (
-            <Pressable key={env} onPress={() => handleSelectEnv(env)}>
-              <Text style={[styles.itemText, selected && styles.selected]}>{`${toTitleCase(env)} ${
-                selected ? "(selected)" : ""
-              }`}</Text>
-            </Pressable>
-          );
-        })}
-        <Text style={styles.infoText}>Select CodePush env:</Text>
-        {codePushEnvs.map(codePushEnv => {
-          const selected = selectedCodePushEnv === codePushEnv;
-          return (
-            <Pressable key={codePushEnv} onPress={() => handleSelectCodePushEnv(codePushEnv)}>
-              <Text style={[styles.itemText, selected && styles.selected]}>{`${toTitleCase(codePushEnv)} ${
-                selected ? "(selected)" : ""
-              }`}</Text>
-            </Pressable>
-          );
-        })}
-
-        <Text style={styles.infoText}>Active config:</Text>
-        <Text style={styles.configText}>{JSON.stringify(appConfig(), null, 2)}</Text>
-        <Text style={styles.infoText}>Codepush metadata:</Text>
-        <Text style={styles.configText}>{codePushMetadata ? JSON.stringify(codePushMetadata, null, 2) : "n/a"}</Text>
-      </ScrollView>
-      <View style={styles.buttonContainer}>
-        <AppButton type="primary" title="Apply changes" onPress={handleApply} />
-      </View>
+      <Text style={styles.text}>{t("login.signIn")}</Text>
+      <AppButton title="login.signIn" onPress={() => authStore.fakeLogin()} />
     </SafeAreaView>
   );
 };

@@ -1,7 +1,17 @@
 const en = {
-  signIn: {
+  login: {
     signIn: "Sign in",
     forgotPassword: "Forgot password?",
+  },
+  welcome: {
+    title: "Foo app",
+    subtitle: "A base app to rule them all 💥",
+    login: "Login",
+    signUp: "Sign up",
+  },
+  home: {
+    title: "You are logged in",
+    signOut: "Sign out",
   },
 };
 

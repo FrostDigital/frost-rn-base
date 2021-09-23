@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {AppRegistry} from "react-native";
 import "react-native-gesture-handler";
 import App from "./App";
-import {Envs, setSelectedEnv} from "./config/config";
+import {ConfigEnv, setSelectedEnv} from "./config/config";
 
 AppRegistry.registerComponent("FrostRnBase", () => InitializingApp);
 
@@ -20,7 +20,7 @@ const InitializingApp = () => {
       const override = await AsyncStorage.getItem(ENV_OVERRIDE_KEY);
 
       if (override) {
-        setSelectedEnv(override as Envs);
+        setSelectedEnv(override as ConfigEnv);
       }
 
       setConfigured(true);

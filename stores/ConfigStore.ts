@@ -1,16 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {action, observable} from "mobx";
-import {Envs} from "../config/config";
+import {ConfigEnv, setSelectedEnv} from "../config/config";
 import {env} from "../env.json";
 import BaseStore from "./BaseStore";
-import {setSelectedEnv} from "../config/config";
 
 const ENV_OVERRIDE_KEY = "@env-override";
 class ConfigStore extends BaseStore {
   priority = 1;
 
   @observable
-  selectedEnv: Envs = env as Envs;
+  selectedEnv: ConfigEnv = env as ConfigEnv;
 
   @action
   async onBeforeStart() {
@@ -18,13 +17,13 @@ class ConfigStore extends BaseStore {
 
     if (envOverride) {
       console.log("Setting env to", env);
-      this.selectedEnv = env as Envs;
-      setSelectedEnv(envOverride as Envs);
+      this.selectedEnv = env as ConfigEnv;
+      setSelectedEnv(envOverride as ConfigEnv);
     }
   }
 
   @action
-  setEnv(selectedEnv: Envs) {
+  setEnv(selectedEnv: ConfigEnv) {
     this.selectedEnv = selectedEnv;
     AsyncStorage.setItem(ENV_OVERRIDE_KEY, env);
   }

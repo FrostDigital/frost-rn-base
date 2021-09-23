@@ -1,12 +1,19 @@
 import {createStackNavigator} from "@react-navigation/stack";
+import {observer} from "mobx-react-lite";
 import React from "react";
-import {Text} from "react-native";
 import {useStore} from "../stores/RootStore";
+import LoggedInNavigator from "./LoggedInNavigator";
+import LoggedOutNavigator from "./LoggedOutNavigator";
+
+type AuthNavParamList = {
+  LoggedIn: undefined;
+  LoggedOut: undefined;
+};
 
 const AuthNavigator: React.FC = () => {
   const {authStore} = useStore();
 
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<AuthNavParamList>();
 
   return (
     <Stack.Navigator>
@@ -14,17 +21,19 @@ const AuthNavigator: React.FC = () => {
         <>
           <Stack.Screen
             name="LoggedIn"
-            component={() => <Text>LoggedIn</Text>}
+            component={LoggedInNavigator}
             options={{animationEnabled: false, headerShown: false}}
           />
         </>
       ) : (
-        <>
-          <Stack.Screen name="LoggedOut" component={() => <Text>LoggedOut</Text>} options={{animationEnabled: false}} />
-        </>
+        <Stack.Screen
+          name="LoggedOut"
+          component={LoggedOutNavigator}
+          options={{animationEnabled: false, headerShown: false}}
+        />
       )}
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator;
+export default observer(AuthNavigator);
