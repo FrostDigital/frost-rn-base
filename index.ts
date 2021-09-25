@@ -39,7 +39,7 @@ async function run(): Promise<void> {
         //   return true;
         // }
         // return "Invalid project name: " + validation.problems![0];
-        return "";
+        return true;
       },
     });
 

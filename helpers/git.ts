@@ -38,6 +38,7 @@ export function tryGitInit(root: string): boolean {
     });
     return true;
   } catch (e) {
+    console.log("Failed to git init", e);
     if (didInit) {
       try {
         rimraf.sync(path.join(root, ".git"));
