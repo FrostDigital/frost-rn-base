@@ -12,7 +12,7 @@ TL;DR: Enable prettier auto formatting in VSCode and you are good to go.
 
 - **PascalCase** for components, interfaces and classes. Example: `DatePicker.tsx` or `Car.ts`
 - **PascalCase** with dot descriptor for styles and stories. Example: `DatePicker.styles.ts` or `DatePicker.stories.tsx`
-- Dash case and/or dot case (not sure what this is called?) for other files. Example: `file.utils.ts` or `foo-bar.config.ts`
+- Kebab case and/or dot case for other files. Example: `file.utils.ts` or `foo-bar.config.ts`
 - Extract styling to its own file, do not do inline styling unless it is really needed.
 
 ## Directory structure
@@ -26,6 +26,7 @@ components/DatePicker/      # keep component in their own
                             # styles, stories and possibly more files
 screens/                    # app screens/views
 models/                     # models, such as API models or other, should mostly be interfaces
+stores/                     # Mobx state stores
 config/                     # config files
 ci/                         # pipeline yaml files
 assets/                     # static assets such as images
