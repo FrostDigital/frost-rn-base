@@ -1,80 +1,52 @@
 {
-  "name": "frostrnbase",
+  "name": "create-frost-rn-app",
   "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "clean:android": "cd android && ./gradlew clean && cd ../",
-    "clean:ios": "cd ios && xcodebuild clean && cd ../",
-    "clean": "npm run clean:android && npm run clean:ios",
-    "storybook-watcher": "sbn-watcher",
-    "prestart": "sbn-get-stories",
-    "preios": "sbn-get-stories",
-    "preandroid": "sbn-get-stories"
+  "description": "Create a Frost flavoured RN app with one command",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FrostDigital/frost-rn-base"
   },
-  "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.15.8",
-    "@react-native-community/datetimepicker": "^3.5.2",
-    "@react-native-community/netinfo": "^6.0.2",
-    "@react-native-community/slider": "^4.1.7",
-    "@react-navigation/native": "^6.0.2",
-    "@react-navigation/stack": "^6.0.7",
-    "@storybook/addon-actions": "^6.3.8",
-    "@storybook/addon-controls": "^6.3.8",
-    "@storybook/addon-ondevice-actions": "^6.0.1-alpha.3",
-    "@storybook/addon-ondevice-backgrounds": "^6.0.1-alpha.3",
-    "@storybook/addon-ondevice-controls": "^6.0.1-alpha.3",
-    "@storybook/addon-ondevice-notes": "^6.0.1-alpha.3",
-    "@storybook/react-native": "^6.0.1-alpha.3",
-    "@types/i18n-js": "^3.8.2",
-    "i18n-js": "^3.8.0",
-    "merge-deep": "^3.0.3",
-    "mobx": "^6.3.3",
-    "mobx-react": "^7.2.0",
-    "react": "17.0.2",
-    "react-native": "0.65.1",
-    "react-native-gesture-handler": "^1.10.3",
-    "react-native-localize": "^2.1.4",
-    "react-native-reanimated": "^2.2.2",
-    "react-native-safe-area-context": "^3.3.2",
-    "react-native-screens": "^3.7.2"
+  "license": "MIT",
+  "bin": {
+    "create-frost-rn-app": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "ncc build ./index.ts -w -o dist/",
+    "build": "rimraf ./dist/ && ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
+    "prepublish": "npm run build"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/plugin-proposal-class-properties": "^7.14.5",
-    "@babel/plugin-proposal-decorators": "^7.15.4",
-    "@babel/runtime": "^7.15.4",
-    "@react-native-community/eslint-config": "^3.0.1",
-    "@types/jest": "^27.0.1",
-    "@types/merge-deep": "^3.0.0",
-    "@types/react-native": "^0.65.0",
-    "@types/react-test-renderer": "^17.0.1",
-    "babel-jest": "^27.2.0",
-    "babel-loader": "^8.2.2",
-    "eslint": "^7.32.0",
-    "jest": "^27.2.0",
-    "metro-react-native-babel-preset": "^0.66.2",
-    "react-dom": "^17.0.2",
-    "react-native-codegen": "^0.0.7",
-    "react-test-renderer": "17.0.2",
-    "typescript": "^4.4.3"
+    "@types/async-retry": "1.4.2",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/download": "^8.0.1",
+    "@types/jasmine": "3.8.1",
+    "@types/node": "^12.6.8",
+    "@types/prompts": "2.0.1",
+    "@types/rimraf": "3.0.0",
+    "@types/tar": "4.0.3",
+    "@types/validate-npm-package-name": "3.0.0",
+    "@vercel/ncc": "0.25.1",
+    "async-retry": "1.3.1",
+    "chalk": "2.4.2",
+    "commander": "2.20.0",
+    "cpy": "7.3.0",
+    "cross-spawn": "6.0.5",
+    "got": "10.7.0",
+    "jasmine-spec-reporter": "^7.0.0",
+    "prompts": "2.1.0",
+    "rimraf": "3.0.0",
+    "tar": "4.4.10",
+    "typescript": "3.8.3",
+    "update-check": "1.5.4",
+    "validate-npm-package-name": "3.0.0"
   },
-  "resolutions": {
-    "@types/react": "^17"
+  "engines": {
+    "node": ">=10.13.0"
   },
-  "jest": {
-    "preset": "react-native",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+  "dependencies": {
+    "gitget": "^0.0.13"
   }
 }
