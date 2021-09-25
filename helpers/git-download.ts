@@ -16,5 +16,6 @@ export function download({
     repo,
     subdir,
     folder: dest,
+    silent: true,
   });
 }

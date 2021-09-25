@@ -7,6 +7,7 @@ import { install } from "./helpers/install";
 import { isFolderEmpty } from "./helpers/is-folder-empty";
 import { isWriteable } from "./helpers/is-writeable";
 import { makeDir } from "./helpers/make-dir";
+import { renameApp } from "./helpers/rename-app";
 
 export async function createApp({
   appPath,
@@ -49,6 +50,11 @@ export async function createApp({
     dest: "./",
     subdir: "templates/default",
   });
+
+  console.log(`Setting app name...`);
+  console.log();
+
+  await renameApp("frost-rn-base", appName);
 
   console.log(`Installing dependencies using npm...`);
   console.log();

@@ -45,6 +45,7 @@
     "node": ">=10.13.0"
   },
   "dependencies": {
-    "gitget": "^0.0.13"
+    "gitget": "^0.0.13",
+    "replace-in-file": "^6.2.0"
   }
 }
