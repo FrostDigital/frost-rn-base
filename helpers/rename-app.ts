@@ -33,8 +33,8 @@ export async function renameApp(from: string, to: string) {
     files: glob,
   });
 
+  // iOS files
   [
-    // iOS files
     {
       from: `ios/${fromPascalCase}`,
       to: `ios/${toPascalCase}`,
@@ -44,10 +44,22 @@ export async function renameApp(from: string, to: string) {
       to: `ios/${toPascalCase}.xcodeproj`,
     },
     {
-      from: `ios/${fromPascalCase}.xcodeproj`,
-      to: `ios/${toPascalCase}.xcodeproj`,
+      from: `ios/${fromPascalCase}.xcworkspace`,
+      to: `ios/${toPascalCase}.xcworkspace`,
     },
-  ];
+  ].map(rename);
+
+  // Android files
+  [
+    {
+      from: `android/app/src/main/java/com/${fromLowerCase}`,
+      to: `android/app/src/main/java/com/${toLowerCase}`,
+    },
+    {
+      from: `android/app/src/debug/java/com/${fromLowerCase}`,
+      to: `android/app/src/debug/java/com/${toLowerCase}`,
+    },
+  ].map(rename);
 }
 
 // https://stackoverflow.com/a/54651317
