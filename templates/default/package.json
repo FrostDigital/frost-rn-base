@@ -12,9 +12,11 @@
     "clean:ios": "cd ios && xcodebuild clean && cd ../",
     "clean": "npm run clean:android && npm run clean:ios",
     "storybook-watcher": "sbn-watcher",
-    "prestart": "sbn-get-stories",
+    "prestart": "sbn-get-stories && npm run save-git-hash",
+    "prebuild": "npm run save-git-hash",
     "preios": "sbn-get-stories",
-    "preandroid": "sbn-get-stories"
+    "preandroid": "sbn-get-stories",
+    "save-git-hash": "node scripts/git-hash.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.15.8",

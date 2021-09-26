@@ -15,6 +15,7 @@ This project is meant to be copy-pasted and reworked to whatever app you are bui
 
 ## Further reading
 
-- Configuration
-- In-app dev settings
+- [Coding conventions](./coding-conventions.md)
+- [Configuration](./config.md)
+- [In-app dev settings](./dev-settings.md)
 - Pipelines (CI)

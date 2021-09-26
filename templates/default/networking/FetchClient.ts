@@ -1,5 +1,6 @@
 import {ApiError} from "../models/ApiError";
 import {ApiResponse} from "../models/ApiResponse";
+import {gitHash} from "../env.json";
 
 type ContentType = "application/json" | "multipart/form-data";
 
@@ -28,6 +29,7 @@ export default class FetchClient {
     let headers;
     headers = new Headers({
       "Content-Type": contentType,
+      "X-App-Version": gitHash,
     });
 
     if (token) {
