@@ -1,7 +1,14 @@
 import { replaceInFile } from "replace-in-file";
 import fs from "fs";
 
-export async function renameApp(from: string, to: string) {
+const allGlob = ["**/*"];
+
+export async function renameApp(
+  from: string,
+  to: string,
+  bundleIdentifier: string,
+  androidAppId: string
+) {
   // FrostRnBase
   const fromPascalCase = kebabCaseToPascalCase(from);
   const toPascalCase = kebabCaseToPascalCase(to);
@@ -10,27 +17,41 @@ export async function renameApp(from: string, to: string) {
   const fromLowerCase = fromPascalCase.toLowerCase();
   const toLowerCase = toPascalCase.toLowerCase();
 
-  const glob = ["**/*"];
+  const androidAppIdAsPath = androidAppId.replace(/\./g, "/");
+
+  // Replace se.frost -> packageName in project.pbxproj
+  await replaceInFile({
+    from: new RegExp("se.frost.FrostRnBase", "g"),
+    to: bundleIdentifier,
+    files: ["**/*/project.pbxproj"],
+  });
+
+  // Replace se.frost.frostrnbase -> packageName.myapp in android files
+  await replaceInFile({
+    from: new RegExp("se.frost.frostrnbase", "g"),
+    to: androidAppId,
+    files: ["android/**/*"],
+  });
 
   // Replace frost-rn-base -> my-app
   await replaceInFile({
     from: new RegExp(from, "g"),
     to,
-    files: glob,
+    files: allGlob,
   });
 
   // Replace FrostRnBase -> MyApp
-  const res = await replaceInFile({
+  await replaceInFile({
     from: new RegExp(fromPascalCase, "g"),
     to: toPascalCase,
-    files: glob,
+    files: allGlob,
   });
 
   // Replace frostrnbase -> myapp
   await replaceInFile({
     from: new RegExp(fromLowerCase, "g"),
     to: toLowerCase,
-    files: glob,
+    files: allGlob,
   });
 
   // iOS files
@@ -52,18 +73,18 @@ export async function renameApp(from: string, to: string) {
   // Android files
   [
     {
-      from: `android/app/src/main/java/com/${fromLowerCase}`,
-      to: `android/app/src/main/java/com/${toLowerCase}`,
+      from: `android/app/src/main/java/se/frostrnbase`,
+      to: `android/app/src/main/java/${androidAppIdAsPath}`,
     },
     {
-      from: `android/app/src/debug/java/com/${fromLowerCase}`,
-      to: `android/app/src/debug/java/com/${toLowerCase}`,
+      from: `android/app/src/debug/java/se/frostrnbase`,
+      to: `android/app/src/debug/java/${androidAppIdAsPath}`,
     },
   ].map(rename);
 }
 
 // https://stackoverflow.com/a/54651317
-function kebabCaseToPascalCase(text: string) {
+export function kebabCaseToPascalCase(text: string) {
   return text.replace(/(^\w|-\w)/g, clearAndUpper);
 }
 

@@ -11,8 +11,12 @@ import { renameApp } from "./helpers/rename-app";
 
 export async function createApp({
   appPath,
+  iosBundleIdentifier,
+  androidAppId,
 }: {
   appPath: string;
+  iosBundleIdentifier: string;
+  androidAppId: string;
 }): Promise<void> {
   const root = path.resolve(appPath);
 
@@ -54,7 +58,7 @@ export async function createApp({
   console.log(`Setting app name...`);
   console.log();
 
-  await renameApp("frost-rn-base", appName);
+  await renameApp("frost-rn-base", appName, iosBundleIdentifier, androidAppId);
 
   console.log(`Installing dependencies using npm...`);
   console.log();

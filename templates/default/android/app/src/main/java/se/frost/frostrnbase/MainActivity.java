@@ -1,4 +1,4 @@
-package com.frostrnbase;
+package se.frost.frostrnbase;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;

@@ -6,10 +6,12 @@ import path from "path";
 import prompts from "prompts";
 import checkForUpdate from "update-check";
 import { createApp } from "./create-app";
-// import { validateNpmName } from "./helpers/validate-pkg";
+import { kebabCaseToPascalCase } from "./helpers/rename-app";
 import packageJson from "./package.json";
 
 let projectPath: string = "";
+let iosBundleIdentifier: string = "";
+let androidAppId: string = "";
 
 const program = new Commander.Command(packageJson.name)
   .version(packageJson.version)
@@ -31,16 +33,8 @@ async function run(): Promise<void> {
     const res = await prompts({
       type: "text",
       name: "path",
-      message: "What is your project named?",
+      message: "What is your project named (kebab-cased)?",
       initial: "my-app",
-      validate: (name) => {
-        // const validation = validateNpmName(path.basename(path.resolve(name)));
-        // if (validation.valid) {
-        //   return true;
-        // }
-        // return "Invalid project name: " + validation.problems![0];
-        return true;
-      },
     });
 
     if (typeof res.path === "string") {
@@ -66,25 +60,48 @@ async function run(): Promise<void> {
     process.exit(1);
   }
 
+  const iosBundleIdentRes = await prompts({
+    type: "text",
+    name: "path",
+    message: "What is your iOS bundle identifier?",
+    initial: `se.frost.${kebabCaseToPascalCase(projectPath)}`,
+  });
+
+  if (typeof iosBundleIdentRes.path === "string") {
+    iosBundleIdentifier = iosBundleIdentRes.path.trim();
+  }
+
+  if (!iosBundleIdentifier) {
+    console.log();
+    console.log("Please specify the iOS bundle identifier");
+    process.exit(1);
+  }
+
+  const androidAppIdRes = await prompts({
+    type: "text",
+    name: "path",
+    message: "What is your android appId?",
+    initial: iosBundleIdentifier.toLowerCase(),
+  });
+
+  if (typeof androidAppIdRes.path === "string") {
+    androidAppId = androidAppIdRes.path.trim().toLowerCase();
+  }
+
+  if (!androidAppId) {
+    console.log();
+    console.log("Please specify the android appId");
+    process.exit(1);
+  }
+
   const resolvedProjectPath = path.resolve(projectPath);
-  const projectName = path.basename(resolvedProjectPath);
-
-  //   const { valid, problems } = validateNpmName(projectName);
-
-  //   if (!valid) {
-  //     console.error(
-  //       `Could not create a project called ${chalk.red(
-  //         `"${projectName}"`
-  //       )} because of npm naming restrictions:`
-  //     );
-
-  //     problems!.forEach((p) => console.error(`    ${chalk.red.bold("*")} ${p}`));
-  //     process.exit(1);
-  //   }
+  // const projectName = path.basename(resolvedProjectPath);
 
   try {
     await createApp({
       appPath: resolvedProjectPath,
+      iosBundleIdentifier,
+      androidAppId,
     });
   } catch (reason) {
     // TODO: Remove this?
