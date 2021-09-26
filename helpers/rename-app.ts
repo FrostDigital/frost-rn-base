@@ -1,5 +1,5 @@
+import fsExtra from "fs-extra";
 import { replaceInFile } from "replace-in-file";
-import fs from "fs";
 
 const allGlob = ["**/*"];
 
@@ -73,11 +73,11 @@ export async function renameApp(
   // Android files
   [
     {
-      from: `android/app/src/main/java/se/frostrnbase`,
+      from: `android/app/src/main/java/se/frost/frostrnbase`,
       to: `android/app/src/main/java/${androidAppIdAsPath}`,
     },
     {
-      from: `android/app/src/debug/java/se/frostrnbase`,
+      from: `android/app/src/debug/java/se/frost/frostrnbase`,
       to: `android/app/src/debug/java/${androidAppIdAsPath}`,
     },
   ].map(rename);
@@ -93,5 +93,5 @@ function clearAndUpper(text: string) {
 }
 
 function rename({ from, to }: { from: string; to: string }) {
-  return fs.renameSync(from, to);
+  return fsExtra.moveSync(from, to, { overwrite: true });
 }

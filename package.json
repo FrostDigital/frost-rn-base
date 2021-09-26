@@ -22,6 +22,7 @@
     "@types/async-retry": "1.4.2",
     "@types/cross-spawn": "^6.0.2",
     "@types/download": "^8.0.1",
+    "@types/fs-extra": "^9.0.13",
     "@types/jasmine": "3.8.1",
     "@types/node": "^12.6.8",
     "@types/prompts": "2.0.1",
@@ -45,6 +46,7 @@
     "node": ">=10.13.0"
   },
   "dependencies": {
+    "fs-extra": "^10.0.0",
     "gitget": "^0.0.13",
     "replace-in-file": "^6.2.0"
   }
