@@ -1,14 +1,33 @@
 import {ApiError} from "../models/ApiError";
 import {ApiResponse} from "../models/ApiResponse";
 import {gitHash} from "../env.json";
+import {getBuildNumber, getVersion, getBaseOs} from "react-native-device-info";
 
 type ContentType = "application/json" | "multipart/form-data";
 
 export default class FetchClient {
   private apiRoot: string;
+  private appBuildNum?: string;
+  private appVersion?: string;
+  private appOs?: string;
 
   constructor(apiRoot: string) {
     this.apiRoot = apiRoot;
+    this.setDeviceInfo();
+  }
+
+  /**
+   * Set info about host device which is sent as additional
+   * header in all requests for debug purposes.
+   */
+  private async setDeviceInfo() {
+    try {
+      this.appBuildNum = await getBuildNumber();
+      this.appVersion = await getVersion();
+      this.appOs = await getBaseOs();
+    } catch (err) {
+      console.log("Failed getting device info", err);
+    }
   }
 
   async doRequest<T>({
@@ -29,7 +48,7 @@ export default class FetchClient {
     let headers;
     headers = new Headers({
       "Content-Type": contentType,
-      "X-App-Version": gitHash,
+      "X-App-Version": `${this.appOs} ${this.appVersion} (${this.appBuildNum}, ${gitHash})`,
     });
 
     if (token) {
