@@ -15,6 +15,12 @@ const sv: AppLang = {
     title: "Du är inloggad",
     signOut: "Logga ut",
   },
+  errorBoundary: {
+    title: "Oops, något gick fel!",
+    restart: "Tryck för att ladda om appen",
+    description:
+      "Vi ber om ursäkt, du har stött på ett oväntat fel. Tryck på knappen nedan för att ladda om appen för att komma vidare.",
+  },
 };
 
 export default sv;

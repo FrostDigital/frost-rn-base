@@ -18,4 +18,6 @@ This project is meant to be copy-pasted and reworked to whatever app you are bui
 - [Coding conventions](./coding-conventions.md)
 - [Configuration](./config.md)
 - [In-app dev settings](./dev-settings.md)
+- [Splash screen](./splash.md)
+- [Errors and logging](./errors-and-logging.md)
 - Pipelines (CI)

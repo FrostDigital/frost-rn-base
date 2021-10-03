@@ -17,6 +17,11 @@ const configByEnv = {
       pin: "",
       showLog: true,
     },
+
+    /**
+     * If async storage will be cleared when user restarts/reloads app withing ErrorBoundary.
+     */
+    clearStoreOnUnhandledException: false,
   },
 
   // Config only applied if test environment is active
