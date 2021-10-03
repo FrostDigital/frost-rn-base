@@ -1,15 +1,18 @@
 import {NavigationContainer} from "@react-navigation/native";
 import React, {useEffect, useState} from "react";
+import RNBootSplash from "react-native-bootsplash";
+import ErrorBoundary from "react-native-error-boundary";
+import StorybookUIRoot from "./.storybook/Storybook";
+import ErrorBoundaryFallback from "./components/ErrorBoundaryFallback/ErrorBoundaryFallback";
+import {config} from "./config/config";
 import AuthNavigator from "./navigators/AuthNavigator";
 import {useStore} from "./stores/RootStore";
-import StorybookUIRoot from "./.storybook/Storybook";
-import RNBootSplash from "react-native-bootsplash";
 
 // Toggle this to switch to Storybook UI
 const ENABLE_STORYBOOK = false;
 
 const App = () => {
-  const {rootStore} = useStore();
+  const {rootStore, logStore} = useStore();
   const [isInitialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -26,7 +29,20 @@ const App = () => {
     return <StorybookUIRoot />;
   }
 
-  return <NavigationContainer>{isInitialized && <AuthNavigator />}</NavigationContainer>;
+  function handleError(error: Error, stackTrace: string) {
+    logStore.error(`ErrorBoundary ${error.message}`);
+    logStore.error(stackTrace);
+  }
+
+  return (
+    <ErrorBoundary
+      onError={handleError}
+      FallbackComponent={({error}) => (
+        <ErrorBoundaryFallback error={error} clearAsyncStorageOnError={config().clearStoreOnUnhandledException} />
+      )}>
+      <NavigationContainer>{isInitialized && <AuthNavigator />}</NavigationContainer>
+    </ErrorBoundary>
+  );
 };
 
 export default App;

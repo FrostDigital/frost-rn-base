@@ -1,8 +1,8 @@
 # Splash
 
-Package [react-native-bootsplash](https://github.com/zoontek/react-native-bootsplash) is wired up and used in the app so that it displays a splash screen while launching the app.
+The package [react-native-bootsplash](https://github.com/zoontek/react-native-bootsplash) is wired up and used in the app so that it displays a splash screen while launching the app.
 
-You can regenerate new splash assets with [this command](https://github.com/zoontek/react-native-bootsplash#assets-generation) or by modyfying existing splash screen files.
+You can regenerate new splash assets with [this command](https://github.com/zoontek/react-native-bootsplash#assets-generation) or by modifying existing splash screen files.
 
 Here is an example:
 

@@ -13,6 +13,12 @@ const en = {
     title: "You are logged in",
     signOut: "Sign out",
   },
+  errorBoundary: {
+    title: "Oops, something went wrong",
+    restart: "Tap to reload the app",
+    description:
+      "Sorry, the app encountered an unexpected error. Please press the button below to restart the app. This error has been reported to the developers.",
+  },
 };
 
 export default en;
