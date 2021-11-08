@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import {DevSettings, Pressable, Text, View} from "react-native";
 import {getBuildNumber, getVersion} from "react-native-device-info";
 import styles from "./ErrorBoundaryFallback.styles";
-
 interface Props {
   error: Error;
   clearAsyncStorageOnError?: boolean;
@@ -21,6 +20,7 @@ const ErrorBoundaryFallback: React.FC<Props> = ({error, clearAsyncStorageOnError
     } catch (err) {
       console.log("Could not clear async storage", err);
     } finally {
+      // FIXME: This will crash when not in DEV mode!
       DevSettings.reload();
     }
   }
