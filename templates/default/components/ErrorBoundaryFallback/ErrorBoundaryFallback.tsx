@@ -1,11 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {t} from "i18n-js";
 import React, {useEffect, useState} from "react";
-import {DevSettings, Pressable, PressableProps, Text, View} from "react-native";
+import {DevSettings, Pressable, Text, View} from "react-native";
 import {getBuildNumber, getVersion} from "react-native-device-info";
 import styles from "./ErrorBoundaryFallback.styles";
-
-interface Props extends PressableProps {
+interface Props {
   error: Error;
   clearAsyncStorageOnError?: boolean;
 }
@@ -21,6 +20,7 @@ const ErrorBoundaryFallback: React.FC<Props> = ({error, clearAsyncStorageOnError
     } catch (err) {
       console.log("Could not clear async storage", err);
     } finally {
+      // FIXME: This will crash when not in DEV mode!
       DevSettings.reload();
     }
   }

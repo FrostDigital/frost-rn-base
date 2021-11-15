@@ -6,11 +6,6 @@ export type ConfigEnv = typeof envs[number];
 const configByEnv = {
   // Config applied to all envs
   global: {
-    codePush: {
-      // Set to true if app will use CodePush
-      enabled: false,
-    },
-
     devSettings: {
       // Optionally protect dev settings behind a pin code
       // will be default be disabled in __DEV__ mode
@@ -65,7 +60,26 @@ export function setSelectedEnv(selectedEnvOverride: ConfigEnv) {
   selectedEnv = selectedEnvOverride;
 }
 
-export function config(_selectedEnv?: ConfigEnv) {
-  const envConfig = selectedEnv ? configByEnv[selectedEnv] : configByEnv[env as ConfigEnv];
-  return {...configByEnv.global, ...envConfig};
+export function config() {
+  const origEnv = env as ConfigEnv;
+  const origConfig = configByEnv[origEnv];
+  const envConfig = selectedEnv ? configByEnv[selectedEnv] : origConfig;
+  return {
+    ...configByEnv.global,
+    ...envConfig,
+    /**
+     * Currently selected environment
+     */
+    env: selectedEnv,
+    /**
+     * Original environment for app, not taking any
+     * into account
+     */
+    origEnv,
+    /**
+     * CodePush configuration, note that CodePush config remains
+     * the same even though env is switched in runtime.
+     */
+    codePush: origConfig.codePush,
+  };
 }
