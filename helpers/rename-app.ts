@@ -61,6 +61,11 @@ export async function renameApp(
       to: `ios/${toPascalCase}`,
     },
     {
+      // note: this must run before xcodeproj is renamed below
+      from: `ios/${fromPascalCase}.xcodeproj/xcshareddata/xcschemes/${fromPascalCase}.xcscheme`,
+      to: `ios/${fromPascalCase}.xcodeproj/xcshareddata/xcschemes/${toPascalCase}.xcscheme`,
+    },
+    {
       from: `ios/${fromPascalCase}.xcodeproj`,
       to: `ios/${toPascalCase}.xcodeproj`,
     },
