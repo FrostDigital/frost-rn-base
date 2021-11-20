@@ -59,7 +59,6 @@ export class RootStore {
       }
     }
     console.log("[RootStore]", "Finished onBeforeStart");
-    // console.log("Configuration", this.stores.configStore);
 
     this.initialized = true;
   }
