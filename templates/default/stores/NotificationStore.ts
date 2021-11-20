@@ -11,28 +11,30 @@ class NotificationStore extends BaseStore {
 
   private unsubscribe?: Function;
 
-  private initialNotification: FirebaseMessagingTypes.RemoteMessage | null = null;
+  public initialNotification: FirebaseMessagingTypes.RemoteMessage | null = null;
+
+  public onInitialNotification?: (notif: FirebaseMessagingTypes.RemoteMessage) => any;
 
   async onBeforeStart() {
     try {
       this.updateToken();
 
+      // Unsubscribe before new one is created, will most likely only happen during
+      // development when doing hot reloads or similar
       if (this.unsubscribe) {
         this.unsubscribe();
       }
 
       this.unsubscribe = messaging().onMessage(this.handleForegroundMessage);
+
+      await this.setAndPublishInitialNotification();
     } catch (err) {
       throw err;
     }
   }
 
   async onAppActive() {
-    this.initialNotification = await messaging().getInitialNotification();
-
-    if (this.initialNotification) {
-      console.log("App was opened from notification", this.initialNotification);
-    }
+    await this.setAndPublishInitialNotification();
   }
 
   async updateToken() {
@@ -49,6 +51,11 @@ class NotificationStore extends BaseStore {
   private handleForegroundMessage = (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => {
     console.log("A new FCM message arrived!", JSON.stringify(remoteMessage));
   };
+
+  private async setAndPublishInitialNotification() {
+    this.initialNotification = await messaging().getInitialNotification();
+    this.initialNotification && this.onInitialNotification && this.onInitialNotification(this.initialNotification);
+  }
 }
 
 export default NotificationStore;
