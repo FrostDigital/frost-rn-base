@@ -13,10 +13,12 @@ export async function createApp({
   appPath,
   iosBundleIdentifier,
   androidAppId,
+  templateBranch,
 }: {
   appPath: string;
   iosBundleIdentifier: string;
   androidAppId: string;
+  templateBranch?: string;
 }): Promise<void> {
   const root = path.resolve(appPath);
 
@@ -53,6 +55,7 @@ export async function createApp({
     repo: "frost-rn-base",
     dest: "./",
     subdir: "templates/default",
+    branch: templateBranch,
   });
 
   console.log(`Setting app name...`);
