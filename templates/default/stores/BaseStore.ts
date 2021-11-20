@@ -13,7 +13,8 @@ abstract class BaseStore {
   priority = 5;
 
   /**
-   * Invoked early in start phase.
+   * Invoked early in start phase when app starts.
+   * Is _not_ invoked when app transitioned to active.
    */
   async onBeforeStart() {}
 

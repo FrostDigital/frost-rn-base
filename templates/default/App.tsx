@@ -1,3 +1,4 @@
+import {FirebaseMessagingTypes} from "@react-native-firebase/messaging";
 import {NavigationContainer} from "@react-navigation/native";
 import React, {useEffect, useState} from "react";
 import RNBootSplash from "react-native-bootsplash";
@@ -12,7 +13,7 @@ import {useStore} from "./stores/RootStore";
 const ENABLE_STORYBOOK = false;
 
 const App = () => {
-  const {rootStore, logStore} = useStore();
+  const {rootStore, logStore, notificationStore} = useStore();
   const [isInitialized, setInitialized] = useState(false);
 
   useEffect(() => {
@@ -24,6 +25,12 @@ const App = () => {
 
     init();
   }, [rootStore]);
+
+  useEffect(() => {
+    notificationStore.onInitialNotification = (notif: FirebaseMessagingTypes.RemoteMessage) => {
+      console.log("Got initial notifications", notif);
+    };
+  }, [notificationStore]);
 
   if (__DEV__ && ENABLE_STORYBOOK) {
     return <StorybookUIRoot />;

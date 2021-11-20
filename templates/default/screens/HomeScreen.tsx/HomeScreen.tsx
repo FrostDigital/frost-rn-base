@@ -1,8 +1,9 @@
 import {t} from "i18n-js";
-import React from "react";
+import React, {useEffect} from "react";
 import {SafeAreaView, Text} from "react-native";
 import AppButton from "../../components/AppButton/AppButton";
 import {useStore} from "../../stores/RootStore";
+import {requestUserPermission} from "../../utils/messaging-utils";
 import {styles} from "./HomeScreen.styles";
 
 const HomeScreen: React.FC = () => {
@@ -11,6 +12,10 @@ const HomeScreen: React.FC = () => {
   function handleSignOut() {
     rootStore.logout();
   }
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
 
   return (
     <SafeAreaView style={styles.rootContainer}>

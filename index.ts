@@ -12,6 +12,7 @@ import packageJson from "./package.json";
 let projectPath: string = "";
 let iosBundleIdentifier: string = "";
 let androidAppId: string = "";
+let templateBranch: string = "";
 
 const program = new Commander.Command(packageJson.name)
   .version(packageJson.version)
@@ -20,11 +21,25 @@ const program = new Commander.Command(packageJson.name)
   .action((name) => {
     projectPath = name;
   })
-  //   .option("--use-npm", "Explicitly tell the CLI to bootstrap the app using npm")
+  .option("--branch <branch>", "Set template branch, defaults to main")
   .allowUnknownOption()
   .parse(process.argv);
 
 async function run(): Promise<void> {
+  const opts = program.opts();
+
+  if (opts.branch) {
+    templateBranch = opts.branch;
+
+    console.log();
+    console.log(
+      `  ${chalk.yellowBright(
+        "Using branch " + templateBranch + " for template"
+      )}`
+    );
+    console.log();
+  }
+
   if (typeof projectPath === "string") {
     projectPath = projectPath.trim();
   }
@@ -64,7 +79,7 @@ async function run(): Promise<void> {
     type: "text",
     name: "path",
     message: "What is your iOS bundle identifier?",
-    initial: `se.frost.${kebabCaseToPascalCase(projectPath)}`,
+    initial: `se.frost.${kebabCaseToPascalCase(projectPath).toLowerCase()}`,
   });
 
   if (typeof iosBundleIdentRes.path === "string") {
@@ -102,6 +117,7 @@ async function run(): Promise<void> {
       appPath: resolvedProjectPath,
       iosBundleIdentifier,
       androidAppId,
+      templateBranch,
     });
   } catch (reason) {
     // TODO: Remove this?

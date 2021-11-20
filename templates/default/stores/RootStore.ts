@@ -7,6 +7,7 @@ import BaseStore from "./BaseStore";
 import ConfigStore from "./ConfigStore";
 import FeatureFlagStore from "./FeatureFlagStore";
 import LogStore from "./LogStore";
+import NotificationStore from "./NotificationStore";
 
 /**
  * "One store to rule them all"
@@ -18,6 +19,7 @@ export class RootStore {
     authStore: new AuthStore(this),
     configStore: new ConfigStore(this),
     logStore: new LogStore(this),
+    notificationStore: new NotificationStore(this),
     // 👊 Add more stores here
   };
 
@@ -57,7 +59,6 @@ export class RootStore {
       }
     }
     console.log("[RootStore]", "Finished onBeforeStart");
-    console.log("Configuration", this.stores.configStore);
 
     this.initialized = true;
   }
