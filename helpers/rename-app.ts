@@ -73,6 +73,10 @@ export async function renameApp(
       from: `ios/${fromPascalCase}.xcworkspace`,
       to: `ios/${toPascalCase}.xcworkspace`,
     },
+    {
+      from: `ios/${fromPascalCase}.entitlements`,
+      to: `ios/${toPascalCase}.entitlements`,
+    },
   ].map(rename);
 
   // Android files
