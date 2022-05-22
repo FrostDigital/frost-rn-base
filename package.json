@@ -1,6 +1,6 @@
 {
   "name": "create-frost-rn-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create a Frost flavoured RN app with one command",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "bin": {
-    "create-frost-rn-app": "./dist/index.js"
+    "create-frost-rn-app": "dist/index.js"
   },
   "files": [
     "dist"
