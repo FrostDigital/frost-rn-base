@@ -56,6 +56,11 @@ export async function renameApp(
 
   // iOS files
   [
+    // note: this must run before folder is renamed below
+    {
+      from: `ios/${fromPascalCase}/${fromPascalCase}.entitlements`,
+      to: `ios/${fromPascalCase}/${toPascalCase}.entitlements`,
+    },
     {
       from: `ios/${fromPascalCase}`,
       to: `ios/${toPascalCase}`,
@@ -72,10 +77,6 @@ export async function renameApp(
     {
       from: `ios/${fromPascalCase}.xcworkspace`,
       to: `ios/${toPascalCase}.xcworkspace`,
-    },
-    {
-      from: `ios/${fromPascalCase}.entitlements`,
-      to: `ios/${toPascalCase}.entitlements`,
     },
   ].map(rename);
 
