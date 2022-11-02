@@ -12,6 +12,7 @@ import packageJson from "./package.json";
 let projectPath: string = "";
 let iosBundleIdentifier: string = "";
 let androidAppId: string = "";
+let template: string = "";
 let templateBranch: string = "";
 
 const program = new Commander.Command(packageJson.name)
@@ -21,12 +22,21 @@ const program = new Commander.Command(packageJson.name)
   .action((name) => {
     projectPath = name;
   })
-  .option("--branch <branch>", "Set template branch, defaults to main")
+  .option("--template <template>", "Name of template", "default")
+  .option("--branch <branch>", "Template branch", "main")
   .allowUnknownOption()
   .parse(process.argv);
 
 async function run(): Promise<void> {
   const opts = program.opts();
+
+  if (opts.template) {
+    template = opts.template;
+
+    console.log();
+    console.log(`  ${chalk.yellowBright("Using template " + template)}`);
+    console.log();
+  }
 
   if (opts.branch) {
     templateBranch = opts.branch;
@@ -117,6 +127,7 @@ async function run(): Promise<void> {
       appPath: resolvedProjectPath,
       iosBundleIdentifier,
       androidAppId,
+      template,
       templateBranch,
     });
   } catch (reason) {
