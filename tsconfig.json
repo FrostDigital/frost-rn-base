@@ -8,5 +8,5 @@
     "esModuleInterop": true,
     "skipLibCheck": false
   },
-  "exclude": ["./node_modules/*", "./templates/default"]
+  "exclude": ["./node_modules/*", "./templates"]
 }
