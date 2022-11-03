@@ -5,10 +5,12 @@ A super quick way to generate a boilerplate for your next React Native app.
 Using following tech stack and tools:
 
 - Typescript
-- Mobx
+- Mobx (⚠️ Deprecated in `next` template - using [zustand](https://github.com/pmndrs/zustand) and react-query instead)
 - React Navigation
 - i18n
-- CodePush (if you opt in)
+- Azure Pipeline CI scripts (⚠️ Only available in `next` template)
+- Firebase Messaging
+- Soon: CodePush
 
 Will in future include:
 
@@ -16,10 +18,43 @@ Will in future include:
 
 ## Usage
 
+Generate a RN app with `default` template:
+
 ```
 npx create-frost-rn-app
 ```
 
-## Development
+Generate a RN app with `next` template:
 
-There is currently only one template located in `templates/default`. This package could in future include multiple different templates.
+```
+npx create-frost-rn-app --template next
+```
+
+## Templates
+
+Templates are located in `templates/default`.
+
+### Default
+
+Default template with following stack:
+
+- React Native 0.65.1
+- Typescript
+- Mobx - Global state
+- React Navigation
+- i18n
+- Firebase Messaging
+- Storybooks
+
+### Next
+
+Updated template with following stack:
+
+- React Native 0.65.1
+- Typescript
+- React Query - Data fetching and to some extent global state/cache
+- Zustand - Global state
+- React Navigation
+- i18n
+- Firebase Messaging
+- Sagobok - a lightweight alternative to Storybook
