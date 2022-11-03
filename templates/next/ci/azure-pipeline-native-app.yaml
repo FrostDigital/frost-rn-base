@@ -1,0 +1,187 @@
+schedules:
+  - cron: "0 2 * * 1-5"
+    displayName: Nightly build (weekdays)
+    branches:
+      include:
+        - develop
+
+parameters:
+  - name: versionName
+    type: string
+    default: "1.0.0"
+  - name: buildIos
+    type: boolean
+    default: true
+  - name: buildAndroid
+    type: boolean
+    default: true
+
+trigger: none
+pr: none
+
+pool:
+  vmImage: "macOS-11"
+
+variables:
+  versionNumber: "10$(Build.BuildId)"
+  versionName: "${{ parameters.versionName }}"
+  ios.plistSourcePath: "ios/FrostRnBase/Info.plist"
+  ios.distributioncertificatePassword: "$(IOS_DISTRIBUTION_PASSWORD)"
+  ios.distributioncertificate: "frost-dist.p12"
+  ${{ if eq(variables['Build.SourceBranchName'], 'develop') }}:
+    name: "FrostRnBase (T)"
+    appEnv: "test"
+    ios.bundleIdentifier: "se.frost.FrostRnBase"
+    ios.provisioningProfile: "TODO.mobileprovision"
+    ios.appCenterSlug: "frost-appcenter/MyApp-TEST-iOS"
+    android.appCenterSlug: "frost-appcenter/MyApp-TEST-Android"
+    android.buildTask: "assembleRelease"
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    name: "FrostRnBase"
+    appEnv: "prod"
+    ios.bundleIdentifier: "TODO"
+    ios.provisioningProfile: "TODO.mobileprovision"
+    ios.appCenterSlug: "frost-appcenter/MyApp-PROD-iOS"
+    android.appCenterSlug: "frost-appcenter/MyApp-PROD-Android"
+    android.buildTask: "assembleRelease"
+
+jobs:
+  - job: AppBuild
+    timeoutInMinutes: 120
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "12.18.1"
+        displayName: "Install Node"
+
+      - script: |
+          echo "SourceBranchName: $(Build.SourceBranchName)"
+          echo "ArtifactStagingDirectory: $(Build.ArtifactStagingDirectory)"
+          echo "BuildId: $(Build.BuildId)"
+          echo "versionNumber: $(versionNumber)"
+          echo "appEnv: $(appEnv)"
+        displayName: "Print env (just for debugging)"
+
+      - script: |
+          npm install
+        displayName: "Install packages"
+
+      - script: |
+          npm run set-env $(appEnv)
+        displayName: "Configure env.json"
+
+      - script: |
+          npm run set-git-hash
+        displayName: "Set git hash in env.json"
+
+      - ${{ if eq(parameters.buildIos, true) }}:
+          - task: CocoaPods@0
+            inputs:
+              forceRepoUpdate: false
+              workingDirectory: "ios"
+            displayName: "Install CocoaPods packages"
+
+          - task: InstallAppleCertificate@2
+            inputs:
+              certSecureFile: "$(ios.distributioncertificate)"
+              certPwd: "$(ios.distributioncertificatePassword)"
+            displayName: "Install iOS distribution certificate"
+
+          - task: ios-bundle-identifier@1
+            inputs:
+              sourcePath: "$(ios.plistSourcePath)"
+              bundleIdentifier: "$(ios.bundleIdentifier)"
+              bundleDisplayName: "$(name)"
+              printFile: true
+
+          - script: |
+              sed -i '' 's/se.frost.FrostRnBase/$(ios.bundleIdentifier)/g' ios/FrostRnBase.xcodeproj/project.pbxproj
+            displayName: "Updating project.pbxproj bundleIdentifier"
+
+          - task: InstallAppleProvisioningProfile@1
+            inputs:
+              provisioningProfileLocation: "secureFiles"
+              provProfileSecureFile: "$(ios.provisioningProfile)"
+            displayName: "Install iOS provisioning profile"
+
+          - task: ios-bundle-version@1
+            inputs:
+              sourcePath: "$(ios.plistSourcePath)"
+              versionCodeOption: "buildid"
+              versionCode: "$(versionNumber)"
+              versionName: "$(versionName)"
+              printFile: true
+
+          - task: Xcode@5
+            inputs:
+              actions: "build"
+              scheme: "FrostRnBase"
+              sdk: "iphoneos"
+              configuration: "Release"
+              xcWorkspacePath: "ios/FrostRnBase.xcworkspace"
+              xcodeVersion: "default" # Options: 8, 9, 10, default, specifyPath
+              signingOption: "manual" # Optional. Options: nosign, default, manual, auto
+              signingIdentity: "$(APPLE_CERTIFICATE_SIGNING_IDENTITY)"
+              provisioningProfileUuid: "$(APPLE_PROV_PROFILE_UUID)"
+              packageApp: true
+              useXcpretty: false
+              exportPath: output
+            displayName: "Build iOS app"
+
+          - task: CopyFiles@2
+            inputs:
+              contents: "**/*.ipa"
+              targetFolder: "$(Build.ArtifactStagingDirectory)"
+              OverWrite: true
+            displayName: "Copy iOS deliverable"
+
+          - task: AppCenterDistribute@3
+            inputs:
+              # Rename serverEndpoint to the one configured in Azure Pipelines
+              serverEndpoint: "AppCenter FrostRnBase"
+              appSlug: "$(ios.appCenterSlug)"
+              appFile: "$(build.ArtifactStagingDirectory)/**/*.ipa"
+              releaseNotesOption: "input"
+              releaseNotesInput: "Check git log"
+              destinationType: "groups"
+              #destinationGroupIds: "$(appCenterDistributionGroup)"
+
+            displayName: "AppCenter upload iOS"
+
+      - ${{ if eq(parameters.buildAndroid, true) }}:
+          # - task: CopyFiles@2
+          #   inputs:
+          #     SourceFolder: "build-config/app-icons/$(appEnv)/android"
+          #     Contents: "**"
+          #     TargetFolder: "android/app/src/main/res"
+          #     OverWrite: true
+          #   displayName: "Android: Copy app icons"
+
+          - script: |
+              sed -i '' 's/FrostRnBase/$(name)/g' android/app/src/main/res/values/strings.xml
+            displayName: "Rename app in strings.xml"
+
+          - task: Gradle@2
+            inputs:
+              workingDirectory: "android"
+              gradleWrapperFile: "android/gradlew"
+              options: "-PversionName=$(versionName) -PversionCode=$(versionNumber)"
+              gradleOptions: "-Xmx4608m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+              publishJUnitResults: false
+              testResultsFiles: "**/TEST-*.xml"
+              tasks: "app:$(android.buildTask)"
+              javaHomeOption: "JDKVersion"
+              jdkVersionOption: "1.11"
+            displayName: "Build Android app"
+
+          - task: AppCenterDistribute@3
+            inputs:
+              # Rename serverEndpoint to the one configured in Azure Pipelines
+              serverEndpoint: "AppCenter FrostRnBase"
+              appSlug: "$(android.appCenterSlug)"
+              appFile: "$(Build.SourcesDirectory)/android/app/build/outputs/apk/**/*.apk"
+              releaseNotesOption: "input"
+              releaseNotesInput: "Check git log"
+              destinationType: "groups"
+              # destinationGroupIds: "$(appCenterDistributionGroup)"
+            displayName: "AppCenter upload Android"

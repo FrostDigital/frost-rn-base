@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "56830347526",
+    "project_id": "frost-rn-base",
+    "storage_bucket": "frost-rn-base.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56830347526:android:55aee86d8c627e51f3f687",
+        "android_client_info": {
+          "package_name": "se.frost.frostrnbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56830347526-om5drcjibrh6fmq6trgugph9khvfjfvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC__gvQsUwa4XE8PRhuWGsgLcxinZQOdkM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "56830347526-om5drcjibrh6fmq6trgugph9khvfjfvp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "56830347526-k66mqhquqd5v42tf4cv52p48lfg57l2q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "se.frost.FrostRnBase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
