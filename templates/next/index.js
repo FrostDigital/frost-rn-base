@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, {useEffect, useState} from "react";
 import {AppRegistry} from "react-native";
+import "react-native-reanimated";
 import "react-native-gesture-handler";
 import App from "./App";
 import {setSelectedEnv} from "./config/config";
