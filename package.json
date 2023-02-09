@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "ncc build ./index.ts -w -o dist/",
     "build": "rimraf ./dist/ && ncc build ./index.ts -o ./dist/ --minify --no-cache --no-source-map-register",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@types/async-retry": "1.4.2",
