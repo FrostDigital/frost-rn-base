@@ -1,5 +1,4 @@
 import {createStackNavigator} from "@react-navigation/stack";
-import {observer} from "mobx-react-lite";
 import React from "react";
 import {useAppStore} from "../stores/AppStore";
 import LoggedInNavigator from "./LoggedInNavigator";
@@ -36,4 +35,4 @@ const AuthNavigator: React.FC = () => {
   );
 };
 
-export default observer(AuthNavigator);
+export default AuthNavigator;

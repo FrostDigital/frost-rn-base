@@ -1,6 +1,6 @@
 import {useNavigation} from "@react-navigation/core";
 import React from "react";
-import {SafeAreaView, Text} from "react-native";
+import {Alert, SafeAreaView, Text} from "react-native";
 import Animated, {FadeIn, FadeInDown} from "react-native-reanimated";
 import AppButton from "../../components/AppButton/AppButton";
 import {t} from "../../i18n/i18n";
@@ -18,7 +18,7 @@ const WelcomeScreen: React.FC = () => {
       </Animated.View>
       <Animated.View entering={FadeInDown.delay(250)} style={styles.buttonContainer}>
         <AppButton title="welcome.login" style={styles.button} onPress={() => navigation.navigate("Login")} />
-        <AppButton title="welcome.signUp" style={styles.button} />
+        <AppButton title="welcome.signUp" style={styles.button} onPress={() => Alert.alert("This is a dead end 😘")} />
       </Animated.View>
     </SafeAreaView>
   );
