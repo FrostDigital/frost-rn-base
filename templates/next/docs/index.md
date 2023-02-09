@@ -8,10 +8,10 @@ This project is meant to be copy-pasted and reworked to whatever app you are bui
 
 - 🤓 Typescript - for productivity and quality
 - 🔁 React Navigation - for navigating between views
-- 🎥 Reanimated - for butter smooth animations
-- 🥡 Mobx - for light weight state management
+- 🎥 Reanimated 2 - for butter smooth animations
+- 🥡 zustand - for light weight state management
 - 👷🏻‍♂️ Azure Pipelines - for declarative build pipelines
-- 📖 Storybook - for component driven development
+- 📖 Sagobok - for component driven development (a lightweight alternative to Storybook)
 
 ## Further reading
 

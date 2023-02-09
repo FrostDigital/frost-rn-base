@@ -21,13 +21,13 @@ const configByEnv = {
 
   // Config only applied if test environment is active
   test: {
-    codePush: {
-      env: "",
-      deploymentKeyProdChannelIOS: "REPLACE_ME",
-      deploymentKeyStagingChannelIOS: "REPLACE_ME",
-      deploymentKeyProdChannelAndroid: "REPLACE_ME",
-      deploymentKeyStagingChannelAndroid: "REPLACE_ME",
-    },
+    // codePush: {
+    //   env: "",
+    //   deploymentKeyProdChannelIOS: "REPLACE_ME",
+    //   deploymentKeyStagingChannelIOS: "REPLACE_ME",
+    //   deploymentKeyProdChannelAndroid: "REPLACE_ME",
+    //   deploymentKeyStagingChannelAndroid: "REPLACE_ME",
+    // },
     api: {
       apiRoot: "https://api-test.replace.me",
     },
@@ -35,12 +35,12 @@ const configByEnv = {
 
   // Config only applied if prod environment is active
   prod: {
-    codePush: {
-      deploymentKeyProdChannelIOS: "REPLACE_ME",
-      deploymentKeyStagingChannelIOS: "REPLACE_ME",
-      deploymentKeyProdChannelAndroid: "REPLACE_ME",
-      deploymentKeyStagingChannelAndroid: "REPLACE_ME",
-    },
+    // codePush: {
+    //   deploymentKeyProdChannelIOS: "REPLACE_ME",
+    //   deploymentKeyStagingChannelIOS: "REPLACE_ME",
+    //   deploymentKeyProdChannelAndroid: "REPLACE_ME",
+    //   deploymentKeyStagingChannelAndroid: "REPLACE_ME",
+    // },
     api: {
       apiRoot: "https://api.replace.me",
     },
@@ -80,6 +80,6 @@ export function config() {
      * CodePush configuration, note that CodePush config remains
      * the same even though env is switched in runtime.
      */
-    codePush: origConfig.codePush,
+    // codePush: origConfig.codePush,
   };
 }

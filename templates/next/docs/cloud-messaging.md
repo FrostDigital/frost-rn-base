@@ -29,6 +29,8 @@ LOG  Got fcm token ecB_XupSa03ntNu06G364c:APA91bFeUZrSIhQf61BW6Vjtqu3QXdOf4vGzus
 
 ## De-integrate Google Firebase
 
+> NOTE: This instruction is not updated since after bumping RN version
+
 If you do not need or want Firebase in your project you can remove it like so:
 
 Remove line ~17 in `android/build.gradle`:
