@@ -33,6 +33,14 @@ export async function renameApp(
     files: ["android/**/*"],
   });
 
+  // Replace se/frost/frostrnbase -> packageName/myapp in android files
+  // Used in jni files, for example MainComponentsRegistry
+  await replaceInFile({
+    from: new RegExp("se/frost/frostrnbase", "g"),
+    to: androidAppIdAsPath,
+    files: ["android/**/*"],
+  });
+
   // Replace frost-rn-base -> my-app
   await replaceInFile({
     from: new RegExp(from, "g"),
