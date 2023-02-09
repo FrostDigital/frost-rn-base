@@ -9,12 +9,6 @@ import com.zoontek.rnbootsplash.RNBootSplash;
 
 public class MainActivity extends ReactActivity {
 
-  // https://github.com/software-mansion/react-native-screens#android
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-      super.onCreate(null);
-  }
-
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
@@ -44,10 +38,10 @@ public class MainActivity extends ReactActivity {
       return reactRootView;
     }
   }
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    RNBootSplash.init(this);
     super.onCreate(null);
-    RNBootSplash.init(R.drawable.bootsplash, MainActivity.this); // display the generated bootsplash.xml drawable over our MainActivity
   }
 }
