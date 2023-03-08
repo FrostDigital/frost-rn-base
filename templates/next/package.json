@@ -34,7 +34,7 @@
     "dayjs": "^1.11.5",
     "i18n-js": "^3.8.0",
     "react": "17.0.2",
-    "react-native": "0.68.5",
+    "react-native": "0.68.6",
     "react-native-bootsplash": "^4.4.0",
     "react-native-device-info": "^8.4.0",
     "react-native-error-boundary": "^1.1.11",
