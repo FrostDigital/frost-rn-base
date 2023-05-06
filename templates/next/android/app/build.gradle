@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: "com.facebook.react"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
 
@@ -8,7 +8,6 @@ import com.android.build.OutputFile
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
  */
-
 react {
     /* Folders */
     //   The root of your project, i.e. where "package.json" lives. Default is '..'
@@ -19,11 +18,13 @@ react {
     // codegenDir = file("../node_modules/react-native-codegen")
     //   The cli.js file which is the React Native CLI entrypoint. Default is ../node_modules/react-native/cli.js
     // cliFile = file("../node_modules/react-native/cli.js")
+
     /* Variants */
     //   The list of variants to that are debuggable. For those we're going to
     //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
     // debuggableVariants = ["liteDebug", "prodDebug"]
+
     /* Bundling */
     //   A list containing the node command and its flags. Default is just 'node'.
     // nodeExecutableAndArgs = ["node"]
@@ -43,6 +44,7 @@ react {
     //   A list of extra flags to pass to the 'bundle' commands.
     //   See https://github.com/react-native-community/cli/blob/main/docs/commands.md#bundle
     // extraPackagerArgs = []
+
     /* Hermes Commands */
     //   The hermes compiler command to run. By default it is 'hermesc'
     // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
@@ -81,11 +83,6 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  * Private function to get the list of Native Architectures you want to build.
  * This reads the value from reactNativeArchitectures in your gradle.properties
  * file and works together with the --active-arch-only flag of react-native run-android.
- */
-def enableHermes = project.ext.react.get("enableHermes", false);
-
-/**
- * Architectures to build native code for.
  */
 def reactNativeArchitectures() {
     def value = project.getProperties().get("reactNativeArchitectures")
@@ -160,7 +157,7 @@ dependencies {
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
-        exclude group:'com.squareup.okhttp4', module:'okhttp'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
     }
 
     debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}")
