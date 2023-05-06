@@ -9,6 +9,6 @@ module.exports = {
   },
   resolver: {
     resolverMainFields: ["sbmodern", "browser", "main"],
-    sourceExts: ["jsx", "js", "ts", "tsx", "cjs"],
+    sourceExts: ["jsx", "js", "ts", "tsx", "cjs", "json"],
   },
 };

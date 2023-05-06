@@ -1,7 +1,7 @@
 import {ApiResponse} from "../models/ApiResponse";
 import FetchClient from "../networking/FetchClient";
 
-import create from "zustand";
+import {create} from "zustand";
 import {useAppStore} from "./AppStore";
 
 /**
