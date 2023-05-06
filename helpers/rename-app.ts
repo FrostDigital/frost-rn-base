@@ -2,6 +2,10 @@ import fsExtra from "fs-extra";
 import { replaceInFile } from "replace-in-file";
 
 const allGlob = ["**/*"];
+const ignoreGlob = [
+  "**/*/google-services.json",
+  "**/*/GoogleService-Info.plist",
+];
 
 export async function renameApp(
   from: string,
@@ -46,6 +50,7 @@ export async function renameApp(
     from: new RegExp(from, "g"),
     to,
     files: allGlob,
+    ignore: ignoreGlob,
   });
 
   // Replace FrostRnBase -> MyApp
@@ -53,6 +58,7 @@ export async function renameApp(
     from: new RegExp(fromPascalCase, "g"),
     to: toPascalCase,
     files: allGlob,
+    ignore: ignoreGlob,
   });
 
   // Replace frostrnbase -> myapp
@@ -60,9 +66,29 @@ export async function renameApp(
     from: new RegExp(fromLowerCase, "g"),
     to: toLowerCase,
     files: allGlob,
+    ignore: ignoreGlob,
   });
 
-  // iOS files
+  // NOTE: The special processing below of firebase config files is due to
+  // the fact that the app will not start if the package name is incorrect.
+  // However this will not make Firebase work, the user still needs to
+  // provide their own config files and setup the project in Firebase.
+
+  // Replace only package id in android Firebase config
+  await replaceInFile({
+    from: new RegExp("se.frost.frostrnbase", "g"),
+    to: bundleIdentifier,
+    files: ["android/app/google-services.json"],
+  });
+
+  // Replace only package id in iOS Firebase config
+  await replaceInFile({
+    from: new RegExp("se.frost.FrostRnBase", "g"),
+    to: bundleIdentifier,
+    files: ["ios/GoogleService-Info.plist"],
+  });
+
+  // Rename/move iOS files
   [
     // note: this must run before folder is renamed below
     {
@@ -88,7 +114,7 @@ export async function renameApp(
     },
   ].map(rename);
 
-  // Android files
+  // Rename/move Android files
   [
     {
       from: `android/app/src/main/java/se/frost/frostrnbase`,

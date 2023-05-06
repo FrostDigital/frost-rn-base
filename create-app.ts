@@ -8,6 +8,7 @@ import { isFolderEmpty } from "./helpers/is-folder-empty";
 import { isWriteable } from "./helpers/is-writeable";
 import { makeDir } from "./helpers/make-dir";
 import { renameApp } from "./helpers/rename-app";
+import { getPostInstallNotes } from "./helpers/get-post-install-notes";
 
 export async function createApp({
   appPath,
@@ -81,6 +82,24 @@ export async function createApp({
     cdpath = appName;
   } else {
     cdpath = appPath;
+  }
+
+  const notes = getPostInstallNotes();
+
+  if (notes) {
+    console.log(
+      chalk.red(
+        "Please read the post install docs - it might save you some time 🥸"
+      )
+    );
+    console.log();
+    console.log(notes);
+    console.log();
+    console.log(
+      chalk.dim(
+        "Above is read from post-installation.md in the root of the project."
+      )
+    );
   }
 
   console.log(`${chalk.green("Success!")} Created ${appName} at ${appPath}`);
