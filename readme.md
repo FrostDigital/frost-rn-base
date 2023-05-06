@@ -50,7 +50,7 @@ Default template with following stack:
 
 Updated template with following stack:
 
-- React Native 0.65.1
+- React Native 0.71.7
 - Typescript
 - React Query - Data fetching and to some extent global state/cache
 - Zustand - Global state
