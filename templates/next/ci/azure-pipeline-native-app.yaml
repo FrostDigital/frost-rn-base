@@ -20,7 +20,7 @@ trigger: none
 pr: none
 
 pool:
-  vmImage: "macOS-11"
+  vmImage: "macOS-12"
 
 variables:
   versionNumber: "10$(Build.BuildId)"
@@ -51,7 +51,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: "16.16.0"
+          versionSpec: "16.20.0"
         displayName: "Install Node"
 
       - script: |
