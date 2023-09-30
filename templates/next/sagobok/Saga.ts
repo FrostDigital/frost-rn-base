@@ -2,7 +2,7 @@ import React from "react";
 
 export type Saga = {
   name: string;
-  decorator?: React.FC;
+  decorator?: React.FC<{children: React.ReactNode}>;
   variants: {
     [x: string]: React.FC;
   };
