@@ -6,7 +6,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
   "exclude": ["./node_modules/*", "./templates"]
 }
