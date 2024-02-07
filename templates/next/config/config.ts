@@ -1,7 +1,7 @@
 import {env} from "../env.json";
 
 export const envs = ["test", "prod"] as const;
-export type ConfigEnv = typeof envs[number];
+export type ConfigEnv = (typeof envs)[number];
 
 const configByEnv = {
   // Config applied to all envs
@@ -28,9 +28,8 @@ const configByEnv = {
     //   deploymentKeyProdChannelAndroid: "REPLACE_ME",
     //   deploymentKeyStagingChannelAndroid: "REPLACE_ME",
     // },
-    api: {
-      apiRoot: "https://api-test.replace.me",
-    },
+
+    apiRoot: "https://frost-rn-base-demo.test-1.fruster.se",
   },
 
   // Config only applied if prod environment is active
@@ -41,9 +40,7 @@ const configByEnv = {
     //   deploymentKeyProdChannelAndroid: "REPLACE_ME",
     //   deploymentKeyStagingChannelAndroid: "REPLACE_ME",
     // },
-    api: {
-      apiRoot: "https://api.replace.me",
-    },
+    apiRoot: "https://api.replace.me",
   },
 };
 

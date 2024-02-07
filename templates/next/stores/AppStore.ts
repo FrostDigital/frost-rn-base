@@ -1,27 +1,43 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {create} from "zustand";
 import messaging, {FirebaseMessagingTypes} from "@react-native-firebase/messaging";
+import {AuthUser} from "../models/AuthUser";
+import {useApiStore} from "./ApiStore";
+import {config} from "../config/config";
 
 const ACCESS_TOKEN_KEY = "@accessToken";
 const REFRESH_TOKEN_KEY = "@refreshToken";
+const USER_KEY = "@user";
 
 /**
  * Store responsible for the global state of the application.
+ * Split this on up into multiple stores if it becomes too large.
  *
- * It's responsibilities is per app to decide but normally it would
- * be to track if user is logged, cache the auth users details etc.
- *
- * Note caching of API responses would ideally be done by react-query.
+ * Note that caching of API responses would ideally be done by react-query.
  */
 
 interface AppStore {
+  /**
+   * Authenticated user, if any.
+   */
+  user?: AuthUser;
+
   isLoggedIn: () => boolean;
 
   /**
    * Invoked early in start phase when app starts.
    * Is _not_ invoked when app transitioned to active.
+   *
+   * This is a good place to sync persisted state with the store so it is available
+   * for the rest of the app.
    */
   onBeforeStart: () => Promise<void>;
+
+  /**
+   * Should be invoked after the user logged in and the access token is received.
+   * A place to store the token in storage and set it in the store.
+   */
+  login: (token: string, user: AuthUser) => any;
 
   /**
    * Should be invoked when user logs out.
@@ -55,9 +71,6 @@ interface AppStore {
    */
   refreshToken?: string;
 
-  // TODO: Remove me, just for demo purposes
-  fakeLogin: () => any;
-
   /**
    * Firebase messaging token a.k.a. device token used for push notifications.
    */
@@ -75,10 +88,12 @@ export const useAppStore = create<AppStore>((set, get) => ({
   isLoggedIn: () => !!get().accessToken,
 
   onBeforeStart: async () => {
+    useApiStore.getState().init(config().apiRoot);
     // Get and set access token from storage, if user is logged in
     set({
       accessToken: (await AsyncStorage.getItem(ACCESS_TOKEN_KEY)) || undefined,
-      refreshToken: (await AsyncStorage.getItem(REFRESH_TOKEN_KEY)) || undefined,
+      // refreshToken: (await AsyncStorage.getItem(REFRESH_TOKEN_KEY)) || undefined,
+      user: JSON.parse((await AsyncStorage.getItem(USER_KEY)) || "null"),
     });
 
     // Retrieve device token from Firebase
@@ -106,13 +121,28 @@ export const useAppStore = create<AppStore>((set, get) => ({
     });
   },
 
+  login: async (accessToken, user) => {
+    set({
+      accessToken,
+      user,
+      // refreshToken: user.refreshToken,
+    });
+
+    await AsyncStorage.multiSet([
+      [ACCESS_TOKEN_KEY, accessToken],
+      [USER_KEY, JSON.stringify(user)],
+      // [REFRESH_TOKEN_KEY, user.refreshToken],
+    ]);
+  },
+
   logout: async () => {
     set({
       accessToken: undefined,
       refreshToken: undefined,
       deviceToken: undefined,
+      user: undefined,
     });
-    await AsyncStorage.multiRemove([ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY]);
+    await AsyncStorage.multiRemove([ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY, USER_KEY]);
   },
 
   onAppActive: async () => {
@@ -121,22 +151,6 @@ export const useAppStore = create<AppStore>((set, get) => ({
 
   onAppBackground: async () => {
     // 👉 Add stuff that will happen when app is about to be dismissed to background here, if any
-  },
-
-  // TODO: Remove me, just for demo purposes
-  fakeLogin: () => {
-    const accessToken = "fake";
-    const refreshToken = "fake";
-
-    set({
-      accessToken,
-      refreshToken,
-    });
-
-    AsyncStorage.multiSet([
-      [ACCESS_TOKEN_KEY, accessToken],
-      [REFRESH_TOKEN_KEY, refreshToken],
-    ]);
   },
 
   deviceToken: "",
