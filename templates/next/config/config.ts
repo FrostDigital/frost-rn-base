@@ -29,7 +29,7 @@ const configByEnv = {
     //   deploymentKeyStagingChannelAndroid: "REPLACE_ME",
     // },
 
-    apiRoot: "https://frost-rn-base-demo.test-1.fruster.se",
+    apiRoot: "https://frost-pet-store.test-1.fruster.se",
   },
 
   // Config only applied if prod environment is active
