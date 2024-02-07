@@ -2,27 +2,14 @@
 
 This is a boilerplate React Native app generated with `npx create-frost-rn-app`.
 
-It is using the following tech stack and tools:
+The `templates` folder contains template projects. Visit each folders `readme.md` for more information of the tech stack.
 
-- Typescript
-- React Query - Data fetching and to some extent global state/cache
-- Zustand - lightweight global state
-- React Navigation
-- i18n
-- Azure Pipeline CI scripts
-- Firebase Messaging
-- Sagobok - a lightweight alternative to Storybook
+If you are starting a new project you would most likely use `next` template.
 
-## Installation
+## Usage
 
-```
-npm install
-npx pod-install
+```bash
+npx create-frost-rn-app@latest --template next
 ```
 
-## Start the app
-
-```
-npm run ios
-npm run android
-```
+This will start an interactive prompt to configure your project.
