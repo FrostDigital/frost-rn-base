@@ -22,8 +22,6 @@ interface RequestOptionsWithBody extends RequestOptions {
 }
 
 interface ApiStore {
-  // accessToken: string;
-  // refreshToken: string;
   fetchClient: FetchClient;
   init: (apiRoot: string) => void;
   get: <T>(opts: RequestOptions) => Promise<ApiResponse<T>>;
@@ -32,15 +30,10 @@ interface ApiStore {
   delete: <T>(opts: RequestOptionsWithBody) => Promise<ApiResponse<T>>;
 }
 
-// TODO: Intercept expired token or proactively refresh
-// TODO: Monitor network state
-
 export const useApiStore = create<ApiStore>((set, get) => ({
-  // accessToken: "",
-  // refreshToken: "",
   fetchClient: new FetchClient(""),
-  init: () => {
-    set({fetchClient: new FetchClient("/api")});
+  init: apiRoot => {
+    set({fetchClient: new FetchClient(apiRoot)});
   },
   get: <T>({path, query, isAuthRequired}: RequestOptions) => {
     return get().fetchClient.doRequest<T>({

@@ -49,3 +49,45 @@ export function vh(val: number, {minHeight, maxHeight}: {minHeight?: number; max
 
   return relativeHeight;
 }
+
+export interface ResponsiveUnit<T> {
+  base?: T;
+  md?: T;
+  lg?: T;
+  xl?: T;
+}
+
+const breakpoints = {
+  md: 500, // medium devices
+  lg: 700, // large devices
+  xl: 1000, // extra large devices
+};
+
+/**
+ * Helper function to get responsive unit used for styling.
+ * Similar to chakra, native base, tailwindcss, etc.
+ *
+ * Example usage:
+ * ```
+ * const styles = StyleSheet.create({
+ *    container: {
+ *      width: responsiveUnit({base: 100, md: 200, lg: 300, xl: 400}),
+ *    },
+ * });
+ * ```
+ */
+export function responsiveUnit<T = number>(unit: ResponsiveUnit<T>) {
+  if (width >= breakpoints.xl && unit.xl !== undefined) {
+    return unit.xl;
+  } else if (width >= breakpoints.lg && unit.lg !== undefined) {
+    return unit.lg;
+  } else if (width >= breakpoints.md && unit.md !== undefined) {
+    return unit.md;
+  }
+
+  if (unit.base === undefined) {
+    throw new Error("Responsive unit must have a base value");
+  }
+
+  return unit.base;
+}

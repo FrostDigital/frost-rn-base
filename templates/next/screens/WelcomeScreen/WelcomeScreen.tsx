@@ -5,20 +5,20 @@ import Animated, {FadeIn, FadeInDown} from "react-native-reanimated";
 import AppButton from "../../components/AppButton/AppButton";
 import {t} from "../../i18n/i18n";
 import {LoggedOutStackNavigationProp} from "../../navigators/LoggedOutNavigator";
-import {styles} from "./WelcomeScreen.styles";
+import {vw} from "../../utils/style-utils";
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<LoggedOutStackNavigationProp>();
 
   return (
-    <SafeAreaView style={styles.rootContainer}>
-      <Animated.View entering={FadeIn}>
-        <Text style={styles.title}>{t("welcome.title")}</Text>
-        <Text style={styles.subtitle}>{t("welcome.subtitle")}</Text>
+    <SafeAreaView style={{flex: 1, padding: 10, justifyContent: "center", alignItems: "center"}}>
+      <Animated.View entering={FadeIn} style={{gap: 20, marginBottom: 30}}>
+        <Text style={{fontSize: 24, textAlign: "center"}}>{t("welcome.title")}</Text>
+        <Text style={{fontSize: 18, textAlign: "center"}}>{t("welcome.subtitle")}</Text>
       </Animated.View>
-      <Animated.View entering={FadeInDown.delay(250)} style={styles.buttonContainer}>
-        <AppButton title="welcome.login" style={styles.button} onPress={() => navigation.navigate("Login")} />
-        <AppButton title="welcome.signUp" style={styles.button} onPress={() => Alert.alert("This is a dead end 😘")} />
+      <Animated.View entering={FadeInDown.delay(250)} style={{alignItems: "center", width: vw(90), gap: 20}}>
+        <AppButton title="welcome.login" onPress={() => navigation.navigate("Login")} />
+        <AppButton title="welcome.signUp" onPress={() => Alert.alert("This is a dead end 😘")} />
       </Animated.View>
     </SafeAreaView>
   );

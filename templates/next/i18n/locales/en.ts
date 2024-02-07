@@ -2,6 +2,9 @@ const en = {
   login: {
     signIn: "Sign in",
     forgotPassword: "Forgot password?",
+    username: "Username",
+    password: "Password",
+    hint: "Username is 'demo@frost.se' and password is 'demo123' 🤫",
   },
   welcome: {
     title: "Foo app",

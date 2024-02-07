@@ -4,7 +4,7 @@ It is generally a good practice to extract configuration to a single source such
 
 It can become a quite complex task when dealing with multiple environments and also when parts of configuration needs to be exposed during build time or even dynamic when toggling settings in [dev settings](dev-settings.md).
 
-Add config in `/config/config.ts`. Note that it is divided into app environments (by default `test` and `prod`).
+Add config in `/config/config.ts` and divided it into app environments if needed to (by default `test` and `prod`).
 
 Place common configuration in `global` and environment specific configuration in `test` or `prod` (or other environments if you decide to add those).
 

@@ -2,24 +2,26 @@ import {useMutation} from "@tanstack/react-query";
 import {ApiError} from "../models/ApiError";
 import {useApiStore} from "../stores/ApiStore";
 import {useAppStore} from "../stores/AppStore";
-
-// TODO: Implement this for real
+import {AuthUser} from "../models/AuthUser";
 
 export function useAuth(onError: (error: ApiError) => any) {
-  const post = useApiStore(state => state.post);
-  const fakeLogin = useAppStore(state => state.fakeLogin);
+  const apiStore = useApiStore();
+  const appStore = useAppStore();
 
-  return useMutation<any, ApiError, any>(
-    (auth: {username: string; password: string}) =>
-      post<any /* TODO: Add type */>({
-        path: "/login",
-        body: {
-          username: auth.username,
-          password: auth.password,
-        },
-      }).then(() => {
-        fakeLogin();
-      }),
-    {retry: 0, onError},
-  );
+  return useMutation<any, ApiError, any>({
+    mutationFn: (auth: {username: string; password: string}) =>
+      apiStore
+        .post<{user: AuthUser & {token: string}}>({
+          path: "/user/login",
+          body: {
+            ...auth,
+          },
+        })
+        .then(res => {
+          const {token, ...rest} = res.data.user;
+          appStore.login(token, {...rest});
+        }),
+    retry: 0,
+    onError,
+  });
 }
