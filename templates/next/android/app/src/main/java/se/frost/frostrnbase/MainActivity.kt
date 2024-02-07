@@ -1,4 +1,4 @@
-package se.frostrnbase
+package se.frost.frostrnbase
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
