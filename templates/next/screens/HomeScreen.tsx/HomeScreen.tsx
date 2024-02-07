@@ -25,6 +25,7 @@ const HomeScreen: React.FC = () => {
       <FlashList
         style={{flex: 1}}
         data={data || []}
+        estimatedItemSize={85}
         ItemSeparatorComponent={Divider}
         renderItem={({item}) => (
           <View style={{padding: 15, gap: 10}}>
