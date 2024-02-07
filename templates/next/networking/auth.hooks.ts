@@ -3,14 +3,12 @@ import {ApiError} from "../models/ApiError";
 import {useApiStore} from "../stores/ApiStore";
 import {useAppStore} from "../stores/AppStore";
 
-// TODO: Implement this for real
-
 export function useAuth(onError: (error: ApiError) => any) {
   const post = useApiStore(state => state.post);
   const fakeLogin = useAppStore(state => state.fakeLogin);
 
-  return useMutation<any, ApiError, any>(
-    (auth: {username: string; password: string}) =>
+  return useMutation<any, ApiError, any>({
+    mutationFn: (auth: {username: string; password: string}) =>
       post<any /* TODO: Add type */>({
         path: "/login",
         body: {
@@ -20,6 +18,7 @@ export function useAuth(onError: (error: ApiError) => any) {
       }).then(() => {
         fakeLogin();
       }),
-    {retry: 0, onError},
-  );
+    retry: 0,
+    onError,
+  });
 }
