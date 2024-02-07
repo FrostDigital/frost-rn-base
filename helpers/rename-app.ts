@@ -137,5 +137,10 @@ function clearAndUpper(text: string) {
 }
 
 function rename({ from, to }: { from: string; to: string }) {
+  // Check first if the file/folder exists
+  if (!fsExtra.existsSync(from)) {
+    console.warn(`File/folder does not exist: ${from} - this might be OK`);
+    return;
+  }
   return fsExtra.moveSync(from, to, { overwrite: true });
 }
