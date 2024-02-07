@@ -10,10 +10,8 @@ It is using the following tech stack and tools:
 - React Navigation
 - i18n
 - Azure Pipeline CI scripts
-- Firebase Messaging\*
+- Firebase Messaging
 - Sagobok - a lightweight alternative to Storybook
-
-\*Firebase Messaging is using a rather old version by design. Since `@react-native-firebase` 15+ it requires `use_frameworks` to be used for iOS. This is is not compatible with Flipper plus can potentially cause other issues.
 
 ## Installation
 
