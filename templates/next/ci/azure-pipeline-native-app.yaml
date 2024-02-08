@@ -51,7 +51,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: "16.20.0"
+          versionSpec: "18.17.0"
         displayName: "Install Node"
 
       - script: |
