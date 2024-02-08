@@ -161,6 +161,12 @@ jobs:
               sed -i '' 's/FrostRnBase/$(name)/g' android/app/src/main/res/values/strings.xml
             displayName: "Rename app in strings.xml"
 
+          - task: JavaToolInstaller@0
+            inputs:
+              versionSpec: "17"
+              jdkArchitectureOption: "x64"
+              jdkSourceOption: "PreInstalled"
+
           - task: Gradle@2
             inputs:
               workingDirectory: "android"
