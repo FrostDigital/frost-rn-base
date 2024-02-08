@@ -23,7 +23,6 @@ const HomeScreen: React.FC = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <FlashList
-        style={{flex: 1}}
         data={data || []}
         estimatedItemSize={85}
         ItemSeparatorComponent={Divider}
