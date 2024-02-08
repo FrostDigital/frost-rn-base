@@ -177,7 +177,7 @@ jobs:
               testResultsFiles: "**/TEST-*.xml"
               tasks: "app:$(android.buildTask)"
               javaHomeOption: "JDKVersion"
-              jdkVersionOption: "1.11"
+              jdkVersionOption: "17"
             displayName: "Build Android app"
 
           - task: AppCenterDistribute@3
